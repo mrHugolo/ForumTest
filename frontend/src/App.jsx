@@ -6,7 +6,8 @@ function App() {
   const [count, setCount] = useState(0)
 
   const fetchTest = async () => {
-    let res = await fetch("/rest/test")
+    let res = await fetch("/rest/test/5")
+    console.log(await res.json())
   }
 
   return (
