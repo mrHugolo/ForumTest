@@ -1,6 +1,6 @@
 function restTest(app, db) {
   app.get("/rest/test/:id", (req, res) => {
-    let sql = `SELECT * FROM Test WHERE id = ?`;
+    let sql = /*sql*/ `SELECT * FROM Test WHERE id = ?`;
     exec(sql, req.params.id, res);
   });
 
