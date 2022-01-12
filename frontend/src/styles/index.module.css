@@ -1,3 +1,36 @@
-.testClass{
-  color: red;
+body {
+  margin: 0px;
 }
+
+.bodyApp {
+  --darkGrey: #5c5c5c;
+  --lightGrey: #d7d7d7;
+  --warning: #ff0000;
+  --purple: #b920b7;
+
+  background-color: #fafafa;
+  color: black;
+
+  padding: 5%;
+
+  font-size: 20px;
+  height: 100vh;
+}
+
+.dark {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+/* START  NAVBAR classes */
+
+.navbar {
+  border-bottom: solid 5px var(--purple);
+}
+
+.loginCreateWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* END  NAVBAR classes */
