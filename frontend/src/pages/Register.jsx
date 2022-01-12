@@ -1,8 +1,7 @@
-import { useState, useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export const Register = () => {
-  const { setCurrentUser } = useContext(UserContext);
   const [badCred, setBadCred] = useState(false);
   const [userData, setUserData] = useState({
     userName: "",
@@ -12,6 +11,8 @@ export const Register = () => {
     isBanned: false,
     desc: "Write someting about yourself",
   });
+
+  const history = useHistory();
 
   const noMatch = () => {
     return (
@@ -40,37 +41,14 @@ export const Register = () => {
       };
 
       try {
-        let res = await fetch("/api/register", {
+        await fetch("/api/register", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(newUser),
         });
-        res = await res.json();
-
-        let newUserLogin = {
-          username: newUser.username,
-          password: newUser.password,
-        };
-
-        // currently loging autmatically. remove this feature later
-        try {
-          let res = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newUserLogin),
-          });
-
-          let user = await res.json();
-          if (res.status == 401) {
-            console.log("do you see me ? something went wronf");
-          } else if (res.status == 200) {
-            setCurrentUser(user);
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        history.push("/login");
       } catch (error) {
-        console.log("probably email is already taken", error);
+        console.log("probably usernamealready taken is already taken", error);
         setBadCred(true);
       }
     }
@@ -88,7 +66,8 @@ export const Register = () => {
             type="username"
             placeholder="Your username"
             onChange={(e) => {
-              setUserData((prev) => ({ ...prev, userName: e.target.value }));
+              setUserData((prev) => ({ ...prev, userName: e.target.value })),
+                setBadCred(false);
             }}
             required
           ></input>
@@ -137,7 +116,7 @@ export const Register = () => {
             //Temp css
             badCred && (
               <div style={{ textAlign: "center", color: "red" }}>
-                Bad Credentials
+                Choose a different username
               </div>
             )
           }
