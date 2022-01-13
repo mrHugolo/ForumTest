@@ -52,6 +52,7 @@ h3 {
   line-height: 32pt;
   margin-top: 4vh;
   padding-top: 20px;
+  padding-bottom: 20px;
   background-color: var(--darkGrey, #d7d7d7);
 }
 
