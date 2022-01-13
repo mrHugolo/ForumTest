@@ -110,3 +110,12 @@ input {
 }
 
 /* END  NAVBAR classes */
+
+.groupCard {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.hide {
+  display: none;
+}
