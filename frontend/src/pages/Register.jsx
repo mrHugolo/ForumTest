@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import css from "../styles/index.module.css";
 
 export const Register = () => {
   const [badCred, setBadCred] = useState(false);
@@ -56,77 +57,79 @@ export const Register = () => {
 
   return (
     <>
-      <h1>Register</h1>
+      <div className={css.container}>
+          <div className={css.headline}><h3>Create account</h3><hr /></div>
+          
+          <div className={css.formcontainer}>
+        <div className={css.regform}>
+          <form onSubmit={handleFormSubmit}>
+            {/* <div>Register new account</div> */}
+            <div>
+              {/* <label>Username </label> */}
+              <input
+                type="username"
+                placeholder="Username"
+                onChange={(e) => {
+                  setUserData((prev) => ({ ...prev, userName: e.target.value })),
+                    setBadCred(false);
+                }}
+                required
+              ></input>
+            </div>
+            <div>
+              {/* <label>Email </label> */}
+              <input
+                type="email"
+                placeholder="Email address"
+                onChange={handleEmail}
+                required
+              ></input>
+            </div>
+            <div>
+              {/* <label>Password </label> */}
+              <input
+                type="password"
+                placeholder="Password"
+                onChange={(e) => {
+                  setUserData((prev) => ({ ...prev, pass1: e.target.value }));
+                }}
+                required
+              ></input>
+            </div>
+            <div>
+              {/* <label>Confirm Password </label> */}
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                onChange={(e) => {
+                  setUserData((prev) => ({ ...prev, pass2: e.target.value }));
+                }}
+                required
+              ></input>
+              {
+                //Temp css
+                noMatch2() ? (
+                  <div style={{ color: "red", textAlign: "center" }}>
+                    Passwords don't match
+                  </div>
+                ) : (
+                  <div style={{ color: "transparent" }}>""</div>
+                )
+              }
+              {
+                //Temp css
+                badCred && ( <div style={{ textAlign: "center", color: "red" }}>Choose a different username</div> )
+              }
+            </div>
 
-      <form onSubmit={handleFormSubmit}>
-        <div>Register new account</div>
-        <div>
-          <label>Username </label>
-          <input
-            type="username"
-            placeholder="Your username"
-            onChange={(e) => {
-              setUserData((prev) => ({ ...prev, userName: e.target.value })),
-                setBadCred(false);
-            }}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Email </label>
-          <input
-            type="email"
-            placeholder="Your email address"
-            onChange={handleEmail}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Your Password"
-            onChange={(e) => {
-              setUserData((prev) => ({ ...prev, pass1: e.target.value }));
-            }}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            onChange={(e) => {
-              setUserData((prev) => ({ ...prev, pass2: e.target.value }));
-            }}
-            required
-          ></input>
-          {
-            //Temp css
-            noMatch2() ? (
-              <div style={{ color: "red", textAlign: "center" }}>
-                Passwords don't match
+            <div>
+              <button className={css.submitbutton} type="submit">Finish</button>
               </div>
-            ) : (
-              <div style={{ color: "transparent" }}>""</div>
-            )
-          }
-          {
-            //Temp css
-            badCred && (
-              <div style={{ textAlign: "center", color: "red" }}>
-                Choose a different username
-              </div>
-            )
-          }
+            </form>
+          </div>
         </div>
-
-        <div className="flex justify-center items-center pb-8">
-          <button type="submit">Create Account</button>
-        </div>
-        <div className="min-h-200">&nbsp;</div>
-      </form>
+        {/* <div className={css.footer}>No account? Create one</div> */}
+       </div> 
     </>
   );
 };

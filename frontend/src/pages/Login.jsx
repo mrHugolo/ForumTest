@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import css from "../styles/index.module.css";
 
 export const Login = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
@@ -43,56 +44,56 @@ export const Login = () => {
   //all classes are from tailwind remove later
   return (
     <>
-      <h1>LOGIN</h1>
+      <div className={css.container}>
+        <div className={css.headline}><h3>Login</h3><hr /></div>
+        <br />
 
-      <form className="mt-8 space-y-6" onSubmit={login}>
+      <form className="" onSubmit={login}>
         <input type="hidden" name="remember" defaultValue="true" />
         <div className="rounded-md shadow-sm -space-y-px">
           <div>
-            <label htmlFor="username" className="sr-only">
-              username
-            </label>
+            {/* <label htmlFor="username" className="sr-only"> username</label> */}
             <input
               id="username"
               name="username"
               autoComplete="username"
               required
-              className="appearance-none rounded-none font-myPtext text-xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-myGr-dark focus:border-myGr-dark focus:z-10 sm:text-sm"
-              placeholder="username"
+              className=""
+              placeholder="User name"
               onChange={handleUsername}
             />
           </div>
           <div>
-            <label tabIndex="2" htmlFor="password" className="sr-only">
-              Password
-            </label>
+            {/* <label tabIndex="2" htmlFor="password" className="sr-only"> Password</label> */}
             <input
               id="password"
               name="password"
               type="password"
               autoComplete="current-password"
               required
-              className="appearance-none rounded-none font-myPtext text-xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-myGr-dark focus:border-myGr-dark focus:z-10 sm:text-sm"
+              className=""
               placeholder="Password"
               onChange={handlePassword}
             />
           </div>
         </div>
-        <div className="text-xs text-center">
+        <div className="">
           {badCredentials && (
             <div style={{color:"red"}}>
               Bad Credentials{" "}
             </div>
           )}
-          <h5 onClick={gotoPage}>Create account</h5>
         </div>
         <div>
-          <button className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-myGr-light focus:bg-myGr-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-myGr-dark">
-            <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+          <button className={css.submitbutton}>
+            <span className=""></span>
             Log in
           </button>
-        </div>
-      </form>
+          </div>
+          <br />
+          <div className={css.footer} onClick={gotoPage}>No account? Create one.</div>
+        </form>
+      </div>
     </>
   );
 };
