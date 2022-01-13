@@ -14,12 +14,14 @@ export const Home = () => {
   }, [allGroups])
 
   return (
-    <div>
+    <div className={css.container}>
+      <div className={css.groupContainer}>
       {groups.map(g => (
         <div key={g.name} className={css.groupCard} onClick={() => history.push(`/g/${g.name}`)}>
           {g.name}
         </div>
       ))}
+      </div>
       <CreateGroup groups={{groups, setGroups}}/>
     </div>
   );

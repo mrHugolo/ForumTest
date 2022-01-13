@@ -85,7 +85,7 @@ export const Login = () => {
           )}
         </div>
         <div>
-          <button className={css.submitbutton}>
+          <button className={css.submitBtn}>
             <span className=""></span>
             Log in
           </button>

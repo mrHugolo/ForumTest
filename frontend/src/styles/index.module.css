@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 body {
   margin: 0px;
 }
@@ -53,14 +57,13 @@ h3 {
 
 
 /* ---REGFORM START--- */
-.formcontainer {
+.formContainer {
   text-align: center;
   width: 60%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 10px;
   padding-bottom: 20px;
-  /* background-color: red;  */
 }
 
 .regform {
@@ -70,22 +73,31 @@ h3 {
   width: 15vw;
 }
 
-.headline {
+.headLine {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
 }
 
-input {
+input, textarea {
   background-color: var(--nearBlack, #5c5c5c);
-  color: var(--whiteText, black);
+  color: var(--whiteText, white);
   border: 1px solid black;
   padding: 4px;
   font-size: 1em;
 }
 
-.submitbutton {
+textarea {
+  font-size: 0.75rem;
+  width: 90%;
+  height: 10vh;
+  background-color: white;
+  color: black;
+}
+
+
+.submitBtn {
   background-color: var(--nearBlack, #5c5c5c);
   color: white;
   font-weight: bold;
@@ -109,11 +121,30 @@ input {
   justify-content: space-between;
 }
 
-/* END  NAVBAR classes */
+/* HOME VIEW classes */
+
+.groupContainer {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
 
 .groupCard {
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding-left: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.createGroup {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+
 }
 
 .hide {

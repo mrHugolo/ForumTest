@@ -58,9 +58,9 @@ export const Register = () => {
   return (
     <>
       <div className={css.container}>
-          <div className={css.headline}><h3>Create account</h3><hr /></div>
+          <div className={css.headLine}><h3>Create account</h3><hr /></div>
           
-          <div className={css.formcontainer}>
+          <div className={css.formContainer}>
         <div className={css.regform}>
           <form onSubmit={handleFormSubmit}>
             {/* <div>Register new account</div> */}
@@ -123,7 +123,7 @@ export const Register = () => {
             </div>
 
             <div>
-              <button className={css.submitbutton} type="submit">Finish</button>
+              <button className={css.submitBtn} type="submit">Finish</button>
               </div>
             </form>
           </div>
