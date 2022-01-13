@@ -1,26 +1,43 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import {Fetch} from "../utils/fetch.js"
+import { useContext, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { Fetch } from "../utils/fetch.js"
 import css from "../styles/index.module.css"
+import gcss from "../styles/group.module.css"
+
+import { FaUserAlt } from 'react-icons/fa'
+import { UserContext } from "../contexts/UserContext.jsx";
 
 export const Group = () => {
-  const {groupName} = useParams();
-  const [isJoined, setIsJoined] = useState('')
-  const [members, setMembers] = useState([])
+  const { currentUser } = useContext(UserContext)
+  const { groupName } = useParams();
+  const [group, setGroup] = useState({})
+  const [role, setRole] = useState('')
+  const history = useHistory()
 
   useEffect(async () => {
-    setIsJoined((await Fetch(`rest/isJoined/${groupName}`)).response)
-    setMembers((await Fetch(`rest/members/${groupName}`)).response)
+    let info = (await Fetch(`rest/g/${groupName}`)).response
+    if (info.status == 404) return history.push("/page/404")
+    let g = {
+      name: info[0]?.name,
+      description: info[0]?.description,
+      amount: info[0]?.amount
+    }
+    g.posts = info
+    setGroup(g)
   }, [])
 
-  useEffect(()=> {  
-    console.log(members)
-  }, [members])
+  useEffect(async () => {
+    if (currentUser?.id) setRole((await Fetch(`rest/isJoined/${groupName}`)).response)
+  }, [currentUser])
 
   const switchGroup = () => {
-    if(isJoined?.length) {
+    if (role) {
+      setRole(undefined)
+      setGroup(p => ({ ...p, amount: p.amount - 1 }))
       leaveGroup()
     } else {
+      setRole('Authorized')
+      setGroup(p => ({ ...p, amount: p.amount + 1 }))
       joinGroup()
     }
   }
@@ -46,16 +63,36 @@ export const Group = () => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(obj),
     })
-    console.log(res)
-
+    console.log(res);
   }
-  return (
-    <>
-      <h1>GROUP</h1>
-      <h1 onClick={switchGroup}>{isJoined?.length ? (`Leave group`) : (`Join group`)}</h1>
-      <h1>{isJoined}</h1>
-      <h1>{members.length}</h1>
 
-    </>
+  const partOfDesc = () => {
+    return group.description
+  }
+
+  return (
+    <div className={gcss.container}>
+      <div className={gcss.top}>
+        <span className={css.left}><FaUserAlt /> {group.amount}</span>
+        <button className={`${css.right} ${role ? gcss.leave : gcss.join}`} onClick={switchGroup}>
+          {role ? (`Leave group`) : (`Join group`)}
+        </button>
+      </div>
+      <div className={gcss.middle}>
+        <h1>
+          {group.name}
+        </h1>
+        <div>
+          {partOfDesc()}
+        </div>
+      </div>
+      <div className={gcss.bottom}>
+        {group.posts && group.posts.map((p, i) => (
+          <div key={`post-${i}`} className={css.groupCard} onClick={() => history.push(`/g/${group.name}/p/${p.id}`)}>
+            {p.title}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
