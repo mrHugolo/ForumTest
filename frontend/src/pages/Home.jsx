@@ -13,25 +13,6 @@ export const Home = () => {
     if(allGroups?.length) setGroups(allGroups)
   }, [allGroups])
 
-  const createGroup = async () => {
-    const obj = {
-      name: "Hugos favoritmat",
-      description: "En grupp där Hugo delar sin favoritmat."
-    }
-    let res = await fetch("rest/group", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(obj),
-    })
-    res = await res.json()
-    if(res.response){
-    history.push(`/g/${obj.name}`)
-    } 
-    else{
-      console.log("Group with that name already exists")
-    }
-  }
-
   return (
     <div>
       {groups.map(g => (
