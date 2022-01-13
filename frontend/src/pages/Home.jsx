@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
-import css from '../styles/index.module.css';
+import { useContext, useEffect, useState } from 'react';
 import {useHistory} from 'react-router-dom';
-
-
-
+import {GroupContext} from '../contexts/GroupContext';
+import { CreateGroup } from '../components/CreateGroup';
+import css from '../styles/index.module.css';
 
 export const Home = () => {
   const history = useHistory();
-  const [temp, setTemp] = useState("");
+  const [groups, setGroups] = useState([])
+  const { allGroups } = useContext(GroupContext)
 
-  useEffect(async()=>{
-    let res = await fetch('rest/test/5')
-    setTemp(await res.json())
-  },[])
+  useEffect(() => {
+    if(allGroups?.length) setGroups(allGroups)
+  }, [allGroups])
 
   const createGroup = async () => {
     const obj = {
@@ -34,8 +33,13 @@ export const Home = () => {
   }
 
   return (
-    <>
-      <h1 onClick={() => createGroup()} className={css.testClass}>Create group</h1>
-    </>
+    <div>
+      {groups.map(g => (
+        <div key={g.name} className={css.groupCard} onClick={() => history.push(`/g/${g.name}`)}>
+          {g.name}
+        </div>
+      ))}
+      <CreateGroup groups={{groups, setGroups}}/>
+    </div>
   );
 };

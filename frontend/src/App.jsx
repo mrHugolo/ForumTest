@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import { Navbar } from "./components/Navbar";
 import { Group } from "./pages/Group";
 import { Home } from "./pages/home";
@@ -8,23 +9,24 @@ import { Page404 } from "./pages/Page404";
 import { Post } from "./pages/Post";
 import { Profile } from "./pages/Profile";
 
+import GroupProvider from "./contexts/GroupContext";
+
 function App() {
-
-
-
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/:userName" component={Profile} />
-          <Route exact path="/g/:groupName" component={Group} />
-          <Route exact path="/g/:groupName/p/:postId" component={Post} />
-          <Route path="*" component={Page404} />
-        </Switch>
-      </Router>
+      <GroupProvider>
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/:userName" component={Profile} />
+            <Route exact path="/g/:groupName" component={Group} />
+            <Route exact path="/g/:groupName/p/:postId" component={Post} />
+            <Route path="*" component={Page404} />
+          </Switch>
+        </Router>
+      </GroupProvider>
     </div>
   );
 }

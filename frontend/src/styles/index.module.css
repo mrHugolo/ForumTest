@@ -1,3 +1,8 @@
-.testClass{
-  color: red;
+.groupCard {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.hide {
+  display: none;
 }
