@@ -138,6 +138,7 @@ textarea {
   padding-left: 20px;
   text-align: left;
   width: 100%;
+  cursor: pointer;
 }
 
 .createGroup {

@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Fetch } from "../utils/fetch"
 import css from "../styles/index.module.css"
 import { useHistory } from "react-router-dom"
+import { UserContext } from "../contexts/UserContext"
 
 export const CreateGroup = ({ groups }) => {
+  const {currentUser} = useContext(UserContext)
   const history = useHistory()
   const [isHidden, setIsHidden] = useState(true)
 
@@ -31,24 +33,24 @@ export const CreateGroup = ({ groups }) => {
     let arr = groups.groups.slice()
     arr.push(obj)
     groups.setGroups(arr)
-    // name.value = ""
-    // desc.value = ""
     setIsHidden(true)
 
     history.push(`g/${name.value}`)
   }
 
   return(
-    <div>
-      <div className={`${isHidden ? css.hide : css.createGroup}`}>
-        
-        <input id="createGroup-groupName" placeholder="Group Name" />
-          <textarea id="createGroup-groupDesc" placeholder="Group Description" />
+    <>
+      {currentUser && (
+        <div>
+          <div className={`${isHidden ? css.hide : css.createGroup}`}>
+            <input id="createGroup-groupName" placeholder="Group Name" />
+            <textarea id="createGroup-groupDesc" placeholder="Group Description" />
+          </div>
+          <button onClick={handleClick}>
+            + Create Group
+          </button>
         </div>
-      
-      <button onClick={() => handleClick()}>
-        + Create Group
-      </button>
-    </div>
+      )}
+    </>
   )
 }

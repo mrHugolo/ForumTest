@@ -30,7 +30,7 @@ module.exports = function restGroup(app, db) {
   })
   
   app.post("/rest/group" , (req, res) => {
-    if (!req.body.name || req.body.name == "Name already taken") {
+    if (!req.body.name || req.body.name == "Name already taken" || !sessionUser?.id) {
       res.send({response: false})
       return
     }

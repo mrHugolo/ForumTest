@@ -17,6 +17,14 @@ export const Group = () => {
     console.log(members)
   }, [members])
 
+  const switchGroup = () => {
+    if(isJoined?.length) {
+      leaveGroup()
+    } else {
+      joinGroup()
+    }
+  }
+
   const joinGroup = async () => {
     const obj = {
       name: groupName
@@ -44,8 +52,7 @@ export const Group = () => {
   return (
     <>
       <h1>GROUP</h1>
-      <h1 className={isJoined?.length ? css.hide : ``} onClick={() => joinGroup()}>Join group</h1>
-      <h1 className={!isJoined?.length ? css.hide : ``} onClick={() => leaveGroup()}>Leave group</h1>
+      <h1 onClick={switchGroup}>{isJoined?.length ? (`Leave group`) : (`Join group`)}</h1>
       <h1>{isJoined}</h1>
       <h1>{members.length}</h1>
 
