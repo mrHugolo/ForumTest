@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 let session = require("express-session");
+global.sessionUser = []
 
 module.exports = (app, db) => {
   const salt = "sweetSalt".toString("hex");
@@ -62,6 +63,7 @@ module.exports = (app, db) => {
       if (err) throw err;
       else if (rows) {
         req.session.user = rows;
+        sessionUser = rows;
         delete rows.password;
         res.send(rows);
       } else {

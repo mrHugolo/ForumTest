@@ -19,8 +19,7 @@ export const Group = () => {
 
   const joinGroup = async () => {
     const obj = {
-      name: groupName,
-      userId: 2
+      name: groupName
     }
     let res = await Fetch("rest/joinGroup", {
       method: "POST",
@@ -32,8 +31,7 @@ export const Group = () => {
 
   const leaveGroup = async () => {
     const obj = {
-      name: groupName,
-      userId: 2
+      name: groupName
     }
     let res = await Fetch("rest/leaveGroup", {
       method: "DELETE",
@@ -46,8 +44,8 @@ export const Group = () => {
   return (
     <>
       <h1>GROUP</h1>
-      <h1 className={isJoined.length ? css.hide : ``} onClick={() => joinGroup()}>Join group</h1>
-      <h1 className={!isJoined.length ? css.hide : ``} onClick={() => leaveGroup()}>Leave group</h1>
+      <h1 className={isJoined?.length ? css.hide : ``} onClick={() => joinGroup()}>Join group</h1>
+      <h1 className={!isJoined?.length ? css.hide : ``} onClick={() => leaveGroup()}>Leave group</h1>
       <h1>{isJoined}</h1>
       <h1>{members.length}</h1>
 
