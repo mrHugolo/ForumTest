@@ -63,7 +63,7 @@ module.exports = function restGroup(app, db) {
   })
 
   app.post("/rest/group", (req, res) => {
-    if (!req.body.name || req.body.name == "Name already taken" || !sessionUser?.id) {
+    if (!req.body.name || req.body.name.includes('ᴥ') || req.body.name == "Name not available" || !sessionUser?.id) {
       res.send({ response: false })
       return
     }

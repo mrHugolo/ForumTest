@@ -27,7 +27,7 @@ export const CreateGroup = ({ groups }) => {
       body: JSON.stringify(obj),
     })
     if(!res.response){
-      name.value = "Name already taken"
+      name.value = "Name not available"
       return
     }
     let arr = groups.groups.slice()
