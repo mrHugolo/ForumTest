@@ -7,7 +7,6 @@ import { Fetch } from "../utils/fetch";
 export const Profile = () => {
   const {currentUser} = useContext(UserContext)
   const {userName} = useParams()
-  const [isMyProfile, setIsMyProfile] = useState(false)
   const [user, setUser] = useState({})
 
   useEffect( async () => {
@@ -16,6 +15,7 @@ export const Profile = () => {
       name: info[0].username,
       description: info[0].description,
       groups: info[0].names.split('ᴥ'),
+      isMyProfile: false,
       comments: []
     }
     for(let i = 0; i < info.length; i++) {
@@ -29,7 +29,10 @@ export const Profile = () => {
   }, [])
 
   useEffect(()=> {
-    if(currentUser?.id) setIsMyProfile(currentUser.username === userName)
+    if(currentUser?.id) {
+      let bol = currentUser.username == userName
+      setUser(p => ({ ...p, isMyProfile: bol}))
+    } 
   }, [currentUser])
 
   return (
