@@ -3,7 +3,7 @@ const { json } = require("body-parser");
 module.exports = function restGroup(app, db) {
 
   app.get("/rest/g/:groupName", (req, res) => {
-    db.all(/*sql*/`SELECT name, description, userId, title, (
+    db.all(/*sql*/`SELECT name, description, userId, title, post.id AS postId, (
         SELECT COUNT(*) FROM [user], userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = (SELECT id FROM [group] WHERE name = ?)
         ) AS amount FROM [group], post WHERE groupId = (
         SELECT id FROM [group] WHERE name = ?
@@ -11,13 +11,12 @@ module.exports = function restGroup(app, db) {
       if (err) throw err
       if(rows.length) res.send({ response: rows })
       else {
-        db.all("SELECT *, (SELECT COUNT(*) FROM [group] WHERE name = ?) AS amount FROM [group] WHERE name = ?", [req.params.groupName, req.params.groupName], (elseErr, elseRow) => {
+        db.all(/* sql */`SELECT *, (SELECT COUNT(*) FROM userXgroup WHERE groupId = (SELECT id FROM [group] WHERE name = ?)) AS amount FROM [group] WHERE name = ?`, [req.params.groupName, req.params.groupName], (elseErr, elseRow) => {
           if(elseErr) throw elseErr
           if(!elseRow.length) res.send({response: {status: 404}})
           else res.send({response: elseRow})
         })
-      }
-      
+      }      
     })
   })
 
@@ -60,6 +59,14 @@ module.exports = function restGroup(app, db) {
         res.send({ response: rows2 })
       })
     })
+  })
+
+  app.get("/rest/groupName/:postId", (req,res)=>{
+    db.get(/* sql */`SELECT name from [group] WHERE id=(SELECT groupId FROM post WHERE id=?)`,[req.params.postId],(err,row)=>{
+      if(err) throw err
+      res.send({response: row})
+    })
+
   })
 
   app.post("/rest/group", (req, res) => {

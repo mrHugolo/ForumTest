@@ -30,9 +30,11 @@ export const CreateGroup = ({ groups }) => {
       name.value = "Name not available"
       return
     }
-    let arr = groups.groups.slice()
-    arr.push(obj)
-    groups.setGroups(arr)
+    if(groups.setGroups){
+      let arr = groups.groups.slice()
+      arr.push(obj)
+      groups.setGroups(arr)
+    }
     setIsHidden(true)
 
     history.push(`g/${name.value}`)

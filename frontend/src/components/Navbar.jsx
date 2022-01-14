@@ -27,7 +27,7 @@ export const Navbar = ({ changeTheme, dark }) => {
   };
 
   const goToPage = (e) => {
-    if (history.location.pathname == `${e.target.id}`) return; // Dont re-render if already on the same path
+    if (history.location.pathname == `${e.target.id}` || history.location.pathname == currentUser.username) return; // Dont re-render if already on the same path
     history.push(`${e.target.id}`);
   };
 
@@ -37,8 +37,11 @@ export const Navbar = ({ changeTheme, dark }) => {
       <div className={css.loginCreateWrapper}>
         <h1 onClick={goToPage} id="/">Hidden Forum</h1>
         <h4 onClick={goToPage} id="/register">Create account</h4>
-        {currentUser ? (
+        {currentUser ? (<>
           <h4 onClick={logout}>Logout</h4>
+          <h4 onClick={goToPage} id={`/${currentUser.username}`}>my profile</h4>
+        </>
+
         ) : (
           <h4 onClick={goToPage} id="/login">Login</h4>
         )}
