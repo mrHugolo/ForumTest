@@ -159,3 +159,15 @@ textarea {
 .left {
   align-self: left;
 }
+
+.Cpointer {
+  cursor: pointer;
+}
+
+.borderBottom {
+  border-bottom: 1px solid black;;
+}
+
+.w100 {
+  width: 100%;
+}
