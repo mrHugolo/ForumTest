@@ -4,25 +4,18 @@ module.exports = function restPost(app, db) {
 
   app.post("/rest/post", (req, res) => {
    
-    if (!req.body.title || req.body.title.includes('ᴥ') || req.body.title == "Name not available" || !sessionUser?.id) {
+    if (!req.body.title || !req.body.content || !sessionUser?.id) {
       res.send({ response: false })
       return
     }
-    db.get("SELECT id FROM [post] WHERE title = ?", [req.body.title], (err1, row1) => {
-      if (err1) throw err1
-      if (row1?.id) {
-        res.send({ response: false })
-        return
-      }
-      db.get("INSERT INTO [post] (groupId, userId, title, content) VALUES (?,?,?,?)", [req.body.groupId, req.body.userId, req.body.title, req.body.content], (err2, row2) => {
+        db.get("INSERT INTO [post] (groupId, userId, title, content) VALUES (?,?,?,?)", [req.body.groupId, req.body.userId, req.body.title, req.body.content], (err2, row2) => {
         if (err2) throw err2
         db.get("SELECT id from [post] ORDER BY id DESC LIMIT 1", [], (err3, row3) => {
           if (err3) throw err3
           res.send({ response: row3.id })
         })
       })
-    })
-  });
+    });
   function exec(sql, params, res) {
     db.all(sql, params, (err, rows) => {
       if (err) {

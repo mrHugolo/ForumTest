@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Fetch } from "../utils/fetch.js"
 import css from "../styles/index.module.css"
+import gcss from "../styles/group.module.css";
 import { useHistory } from "react-router-dom"
 import { UserContext } from "../contexts/UserContext"
 
@@ -8,6 +9,7 @@ export const CreatePost = ({ group }) => {
   const { currentUser } = useContext(UserContext);
   const history = useHistory();
   const [isHidden, setIsHidden] = useState(true)
+  
 
   const handleClick = async () => {
     if (isHidden) {
@@ -29,25 +31,33 @@ export const CreatePost = ({ group }) => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(obj),
     })).response
-    
+    if (!res) {
+      title.placeholder = "Please add a title to your post"
+      cont.placeholder = "Please add some content to your post"
+      return
+    }
+
 
     setIsHidden(true)
-     history.push(`/g/${group.group.name}/p/${res}`)
+    history.push(`/g/${group.group.name}/p/${res}`)
+
   }
 
 
   return (
     <>
       {currentUser && (
-        <div>
-          <div className={`${isHidden ? css.hide : css.createGroup}`}>
+        <div className={gcss.bottom}>
+          <div className={`${isHidden ? css.hide : css.createGroup} ${css.w100}`}>
           {/* <div> */}
-            <input id="createPost-postTitle" placeholder="Post Title" />
-            <textarea id="createPost-postCont" placeholder="Post Content" />
+            <input className={css.w100}  id="createPost-postTitle" placeholder="Post Title" />
+            <textarea className={css.w100} id="createPost-postCont" placeholder="Post Content" />
           </div>
+          <div className={css.center}>
           <button onClick={handleClick}>
             + Create Post
-          </button>
+            </button>
+          </div>
         </div>
       )}
     </>
