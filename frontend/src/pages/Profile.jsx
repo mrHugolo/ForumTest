@@ -16,7 +16,6 @@ export const Profile = () => {
   const history =useHistory()
 
   useEffect( async () => {
-    console.log("counts????");
     let info = (await Fetch(`rest/profile/${userName}`)).response
     let u = {
       name: info[0].username,
@@ -33,7 +32,7 @@ export const Profile = () => {
       })
     }
     setUser(u)
-  }, [userName])
+  }, [currentUser,userName])
 
 
   const handleEdit = async (e) => {
