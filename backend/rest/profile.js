@@ -31,4 +31,17 @@ module.exports = function restProfile(app, db) {
       res.send({ response: { status: 200 } })
     })
   })
+
+  app.patch("/rest/deleteAccount", (req, res) => {
+    db.all("UPDATE [comment] SET text = '[deleted]' WHERE userId = ?", [sessionUser.id], (err1, rows1) => {
+      if(err1) throw err1
+      db.all("UPDATE [user] SET username = '[deleted]', password = 'password', description = '', email = REPLACE((SELECT email FROM user WHERE id = ?), '@', '#') WHERE id = ?", [sessionUser.id, sessionUser.id], (err2, rows2) => {
+        if(err2) throw err2
+        db.all("UPDATE [userXgroup] SET role = 'Authorized' WHERE userId = ?", [sessionUser.id], (err3, rows3) => {
+          if(err3) throw err3
+          res.send({response: true})
+        })
+      })
+    })
+  })
 }

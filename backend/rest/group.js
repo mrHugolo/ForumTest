@@ -69,6 +69,13 @@ module.exports = function restGroup(app, db) {
 
   })
 
+  app.get("/rest/isGroupAdmin", (req, res)=> {
+    db.get("SELECT groupId from userXgroup WHERE userId = ? AND role = 'GroupAdmin'", [sessionUser.id], (err, row) => {
+      if(err) throw err
+      res.send({response: row?.groupId})
+    })
+  })
+
   app.post("/rest/group", (req, res) => {
     if (!req.body.name || req.body.name.includes('ᴥ') || req.body.name == "Name not available" || !sessionUser?.id) {
       res.send({ response: false })
