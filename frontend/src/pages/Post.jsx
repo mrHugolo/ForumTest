@@ -6,9 +6,10 @@ import { UserContext } from "../contexts/UserContext"
 
 export const Post = () => {
   const { currentUser } = useContext(UserContext);
+  const { postId } = useParams()
 
   const test = async () => {
-    let res = (await Fetch("rest/group")).response
+    let res = (await Fetch(`rest/post/${postId}`)).response
   }
 
 
