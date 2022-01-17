@@ -18,14 +18,20 @@ module.exports = function restPost(app, db) {
   });
 
   app.get("/rest/post/:postId", (req, res) => {
-
-    db.all(/*sql*/ `SELECT text, (SELECT username FROM user WHERE id = userId) AS commentUsername,
-      (SELECT title FROM post WHERE id =?) AS title,
-        (SELECT content FROM post WHERE id =?) AS content,
-          (SELECT username FROM user WHERE id = (SELECT userId FROM post WHERE id =?)) AS posterName FROM comment WHERE postId =?`, [req.params.postId, req.params.postId, req.params.postId, req.params.postId], (err, rows) => {
+    db.all(`SELECT text, (SELECT username FROM user WHERE id = userId) AS commentUsername,
+          (SELECT id FROM post WHERE id =?) AS id,
+          (SELECT title FROM post WHERE id =?) AS title,
+          (SELECT content FROM post WHERE id =?) AS content,
+          (SELECT username FROM user WHERE id = (SELECT userId FROM post WHERE id =?)) AS posterName FROM comment WHERE postId =?`, [req.params.postId, req.params.postId, req.params.postId, req.params.postId, req.params.postId], (err, rows) => {
             if (err) throw err
-            res.send({ response: rows })
-    })
+            if(rows.length) res.send({ response: rows })
+            else {
+              db.all("SELECT id, title, content, (SELECT username FROM user WHERE id = userId) AS posterName FROM post WHERE id = ?", [req.params.postId], (altErr, altRows) => {
+                if(altErr) throw altErr
+                res.send({response: altRows})
+              })
+            }
+          })
   })
 
 
