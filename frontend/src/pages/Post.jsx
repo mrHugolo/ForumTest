@@ -9,9 +9,11 @@ export const Post = () => {
   const { currentUser } = useContext(UserContext);
   const { postId } = useParams()
   const [post, setPost] = useState({})
+  const history = useHistory()
 
   useEffect(async() => {
     let res = (await Fetch(`rest/post/${postId}`)).response
+    if(!res?.length) return history.push("/page/404")
     let p = {
       title: res[0]?.title,
       posterName: res[0]?.posterName,
