@@ -145,8 +145,8 @@ textarea {
   margin-left: auto;
   margin-right: auto;
   width: 40%;
-
 }
+
 
 .hide {
   display: none;
@@ -158,4 +158,21 @@ textarea {
 
 .left {
   align-self: left;
+}
+
+.center {
+  
+  text-align: center;
+}
+
+.Cpointer {
+  cursor: pointer;
+}
+
+.borderBottom {
+  border-bottom: 1px solid black;;
+}
+
+.w100 {
+  width: 100%;
 }

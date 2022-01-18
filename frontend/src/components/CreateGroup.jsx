@@ -16,6 +16,12 @@ export const CreateGroup = ({ groups }) => {
     }
     let name = document.getElementById("createGroup-groupName")
     let desc = document.getElementById("createGroup-groupDesc")
+
+    if (!name?.value || name?.value == "Name not available") {
+      name.value = ""
+      setIsHidden(true)
+      return
+    }
   
     const obj = {
       name: name?.value,
@@ -27,12 +33,14 @@ export const CreateGroup = ({ groups }) => {
       body: JSON.stringify(obj),
     })
     if(!res.response){
-      name.value = "Name already taken"
+      name.value = "Name not available"
       return
     }
-    let arr = groups.groups.slice()
-    arr.push(obj)
-    groups.setGroups(arr)
+    if(groups.setGroups){
+      let arr = groups.groups.slice()
+      arr.push(obj)
+      groups.setGroups(arr)
+    }
     setIsHidden(true)
 
     history.push(`g/${name.value}`)

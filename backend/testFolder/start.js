@@ -1,5 +1,7 @@
 let restTest=require('../rest/test')
 let restGroup = require('../rest/group')
+let restProfile = require('../rest/profile')
+let restPost = require('../rest/post')
 
 const sqlite3 = require("sqlite3").verbose();
 var express = require("express");
@@ -21,6 +23,8 @@ let db = new sqlite3.Database("../backend/forum.db", (err) => {
 
 restTest(app,db)
 restGroup(app, db)
+restProfile(app, db)
+restPost(app,db)
 
 auth(app,db)
 
