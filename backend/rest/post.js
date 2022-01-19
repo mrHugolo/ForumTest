@@ -28,7 +28,8 @@ module.exports = function restPost(app, db) {
             else {
               db.all("SELECT id, title, content, (SELECT username FROM user WHERE id = userId) AS posterName FROM post WHERE id = ?", [req.params.postId], (altErr, altRows) => {
                 if(altErr) throw altErr
-                res.send({response: altRows})
+                else if(!altRows) res.sendStatus(404)
+                else res.send({response: altRows})
               })
             }
           })

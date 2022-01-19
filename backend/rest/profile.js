@@ -18,8 +18,9 @@ module.exports = function restProfile(app, db) {
               )
             ) AS names FROM  user WHERE username = ?`,
             [req.params.userName, req.params.userName], (altErr, altRow) => {
-              if (altErr) throw altErr
-              res.send({ response: altRow })
+              if (altErr) throw altErr;
+              else if (!altRow.length) res.sendStatus(404);
+              else res.send({ response: altRow })
             })
         }
       })
@@ -29,7 +30,7 @@ module.exports = function restProfile(app, db) {
     db.get(`UPDATE [user] SET description = ? WHERE username = ?`, [req.body.description, sessionUser.username], (err, row) => {
       if (err) throw err
       res.send({ response: { status: 200 } })
-    })
+    }) 
   })
 
   app.patch("/rest/deleteAccount", (req, res) => {
