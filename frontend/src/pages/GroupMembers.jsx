@@ -35,8 +35,11 @@ export const GroupMembers = () => {
     setMembers(arr)
   }, [])
 
-  const isVisible = (role) => {
-    if(role == "GroupAdmin") return gmcss.invisible
+  const isVisible = (r, bool) => {
+    let b = false
+    if(r == "GroupAdmin") b = true
+    else if(r == "Moderator" && role == "Moderator") b = true
+    if(b) return gmcss.invisible
   }
 
   const goToProfile = (e) => {
@@ -56,7 +59,15 @@ export const GroupMembers = () => {
   }
 
   const handleBan = async (role, username) => {
-    // Lukas does stuffs
+    if(!(role == "Unauthorized" || role == "Authorized")) return
+    let r = role == "Unauthorized" ? "Authorized" : "Unauthorized"
+    
+    let arr = members.slice()
+    members.filter(m => m.username == username)[0].role = r
+    setMembers(arr)
+    await Fetch(`rest/changeRole/${username}/${r}`, {
+      method: "PATCH"
+    })
   }
 
   return(
@@ -65,7 +76,7 @@ export const GroupMembers = () => {
           <div key={`member-${m.username}`} className={`${css.borderBottom} ${gmcss.members}`}>
             <div onClick={goToProfile} className={`${gmcss.username} ${gmcss[m.role]} ${css.Cpointer}`}>{m.username}</div>
             <div onClick={() => handleModerator(m.role, m.username)} className={`${isVisible(m.role)} ${gmcss[`crown-${m.role}`]} ${css.Cpointer}`}><FaCrown /></div>
-            <div onClick={() => handleBan(m.role, m.username)} className={`${isVisible(m.role)} ${gmcss.banBtn}`}><button>{m.role == "Unauthorized" ? `Un` : ``}Ban</button></div>
+            <div onClick={() => handleBan(m.role, m.username)} className={`${isVisible(m.role, true)} ${gmcss.banBtn}`}><button>{m.role == "Unauthorized" ? `Un` : ``}Ban</button></div>
           </div>
         ))}
     </div>
