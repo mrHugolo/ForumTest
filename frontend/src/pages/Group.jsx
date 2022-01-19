@@ -88,10 +88,14 @@ export const Group = () => {
     return group.description;
   };
 
+  const goToMembers = () => {
+    if(role == "GroupAdmin" || role == "Moderator") history.push(`/g/${groupName}/members`)
+  }
+
   return (
     <div className={gcss.container}>
       <div className={gcss.top}>
-        <span className={css.left}>
+        <span onClick={goToMembers} className={css.left}>
           <FaUserAlt /> {group.amount}
         </span>
         <button

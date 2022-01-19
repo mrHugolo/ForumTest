@@ -1,0 +1,46 @@
+.container {
+  background-color: gray;
+  width: 60%;
+  padding: 5px;
+  margin-right: auto;
+  margin-left: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.members {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.username {
+  width: 80%;
+}
+
+.GroupAdmin {
+  color: red;
+}
+.Moderator {
+  color: #2cd939;
+}
+.crown-Moderator {
+  color: goldenrod;
+}
+
+
+.banBtn {
+  width: 10%;
+  text-align: center;
+}
+
+button {
+  align-self: center;
+  cursor: pointer;
+}
+
+.invisible {
+  visibility: hidden;
+}

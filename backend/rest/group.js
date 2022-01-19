@@ -41,9 +41,7 @@ module.exports = function restGroup(app, db) {
     db.get(`SELECT id FROM [group] WHERE name = ?`, [req.params.groupName], (err1, row1) => {
       if (err1) throw err1
       db.all(
-        /*sql*/`SELECT username FROM user WHERE id IN (
-        SELECT user.id FROM [user], userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = ?
-        )`,
+        /*sql*/`SELECT username, role FROM user, userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = ? AND username IS NOT '[deleted]'`,
         [row1.id], (err2, rows2) => {
           if (err2) throw err2
           res.send({ response: rows2 })
@@ -143,6 +141,12 @@ module.exports = function restGroup(app, db) {
           res.send({ response: true })
         })
       })
+    })
+  })
+
+  app.patch("/rest/changeRole/:username/:role", (req, res) => {
+    db.get("UPDATE userXgroup SET role = ? WHERE userId = (SELECT id FROM user WHERE username = ?)", [req.params.role, req.params.username], (err, row) => {
+      if(err) throw err
     })
   })
 
