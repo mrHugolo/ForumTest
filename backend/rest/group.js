@@ -13,12 +13,15 @@ module.exports = function restGroup(app, db) {
       else {
         db.all(/* sql */`SELECT *, (SELECT COUNT(*) FROM userXgroup WHERE groupId = (SELECT id FROM [group] WHERE name = ?)) AS amount FROM [group] WHERE name = ?`, [req.params.groupName, req.params.groupName], (elseErr, elseRow) => {
           if(elseErr) throw elseErr
-          if(!elseRow.length) res.send({response: {status: 404}})
+          if(!elseRow.length){
+            res.sendStatus(404)
+         //   res.send({response: {status: 404}})
+        }
           else res.send({response: elseRow})
         })
       }      
     })
-  })
+  }) 
 
   app.get("/rest/groups", (req, res) => {
     db.all("SELECT * FROM [group]", [], (err, rows) => {
@@ -33,7 +36,7 @@ module.exports = function restGroup(app, db) {
       db.get("SELECT role FROM [userXgroup] WHERE userId = ? AND groupId = ?", [sessionUser.id, row1.id], (err2, row2) => {
         if (err2) throw err2
         res.send({ response: row2?.role })
-      })
+      }) 
     })
   })
 
@@ -62,7 +65,8 @@ module.exports = function restGroup(app, db) {
   app.get("/rest/groupName/:postId", (req,res)=>{
     db.get(/* sql */`SELECT name from [group] WHERE id=(SELECT groupId FROM post WHERE id=?)`,[req.params.postId],(err,row)=>{
       if(err) throw err
-      res.send({response: row})
+      else if(!row) res.sendStatus(404)
+      else res.send({response: row})
     })
 
   })
