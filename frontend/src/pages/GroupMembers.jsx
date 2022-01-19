@@ -11,34 +11,37 @@ export const GroupMembers = () => {
   const {currentUser} = useContext(UserContext)
   const history = useHistory()
   const [role, setRole] = useState('')
+  const [temp, setTemp] = useState('')
   const [members, setMembers] = useState([])
 
-  useEffect( async () => {
+  useEffect(async () => {
+    if(!temp) return
     let res = (await Fetch(`rest/members/${groupName}`)).response
     let r = res.find(user => user.username == currentUser.username)?.role
     if(!(r == "GroupAdmin" || r == "Moderator")) history.push(`/g/${groupName}`)
     setRole(r)
     let arr = []
-    res.filter(m => m.role == "GroupAdmin")?.forEach(it => {
-      arr.push(it)
-    })
-    res.filter(m => m.role == "Moderator")?.forEach(it => {
-      arr.push(it)
-    })
-    res.filter(m => m.role == "Authorized")?.forEach(it => {
-      arr.push(it)
-    })
-    res.filter(m => m.role == "Unauthorized")?.forEach(it => {
-      arr.push(it)
-    })
-    
+    let roles = ["GroupAdmin", "Moderator", "Authorized", "Unauthorized"]
+    for (let i = 0; i < roles.length; i++) {
+      res.filter(m => m.role == roles[i])?.forEach(it => {
+        arr.push(it)
+      })
+    }
     setMembers(arr)
-  }, [])
+  }, [temp])
+
+  useEffect(async () => {
+    setTemp(currentUser?.username)
+
+  }, [currentUser.username])
 
   const isVisible = (r, bool) => {
     let b = false
     if(r == "GroupAdmin") b = true
-    else if(r == "Moderator" && role == "Moderator") b = true
+    else if (r == "Moderator" && role == "Moderator") b = true
+    else if (role == "Moderator" && !bool) b = true
+    else if (role == "GroupAdmin" && r == "Moderator" && bool) b = true
+    else if (role == "GroupAdmin" && r == "Unauthorized" && !bool) b = true
     if(b) return gmcss.invisible
   }
 
@@ -49,25 +52,27 @@ export const GroupMembers = () => {
   const handleModerator = async (role, username) => {
     if(!(role == "Moderator" || role == "Authorized")) return
     let r = role == "Moderator" ? "Authorized" : "Moderator"
-    
-    let arr = members.slice()
-    members.filter(m => m.username == username)[0].role = r
-    setMembers(arr)
-    await Fetch(`rest/changeRole/${username}/${r}`, {
+    let res = await Fetch(`rest/changeRole/${groupName}/${username}/${r}`, {
       method: "PATCH"
     })
+    if (res?.response?.status == 200) {
+      let arr = members.slice()
+      members.filter(m => m.username == username)[0].role = r
+      setMembers(arr)
+    }
   }
 
   const handleBan = async (role, username) => {
     if(!(role == "Unauthorized" || role == "Authorized")) return
     let r = role == "Unauthorized" ? "Authorized" : "Unauthorized"
-    
-    let arr = members.slice()
-    members.filter(m => m.username == username)[0].role = r
-    setMembers(arr)
-    await Fetch(`rest/changeRole/${username}/${r}`, {
+    let res = await Fetch(`rest/changeRole/${groupName}/${username}/${r}`, {
       method: "PATCH"
     })
+    if (res?.response?.status == 200) {
+      let arr = members.slice()
+      members.filter(m => m.username == username)[0].role = r
+      setMembers(arr)
+     }
   }
 
   return(

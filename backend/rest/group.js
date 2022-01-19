@@ -144,9 +144,10 @@ module.exports = function restGroup(app, db) {
     })
   })
 
-  app.patch("/rest/changeRole/:username/:role", (req, res) => {
-    db.get("UPDATE userXgroup SET role = ? WHERE userId = (SELECT id FROM user WHERE username = ?)", [req.params.role, req.params.username], (err, row) => {
-      if(err) throw err
+  app.patch("/rest/changeRole/:groupname/:username/:role", (req, res) => {
+    db.get("UPDATE userXgroup SET role = ? WHERE userId = (SELECT id FROM user WHERE username = ?) AND groupId = (SELECT id FROM [group] WHERE NAME = ?)", [req.params.role, req.params.username, req.params.groupname], (err, row) => {
+      if (err) throw err
+      res.send({response: {status: 200}})
     })
   })
 

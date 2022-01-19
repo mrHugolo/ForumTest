@@ -24,6 +24,9 @@ export const Navbar = ({ changeTheme, dark }) => {
     });
     setCurrentUser("");
     console.log("logged oout from session");
+    console.log("history loc", history.location.pathname);
+    if (history.location.pathname == "/") return; 
+    history.push("/")
   };
 
   const goToPage = (e) => {
