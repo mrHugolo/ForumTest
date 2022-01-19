@@ -10,7 +10,6 @@ export const CreatePost = ({ group }) => {
   const history = useHistory();
   const [isHidden, setIsHidden] = useState(true)
   
-
   const handleClick = async () => {
     if (isHidden) {
       setIsHidden(false)

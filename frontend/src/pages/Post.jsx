@@ -4,6 +4,7 @@ import { Fetch } from "../utils/fetch.js";
 import css from "../styles/index.module.css";
 import pcss from "../styles/post.module.css"
 import { UserContext } from "../contexts/UserContext"
+import { CreateComment } from "../components/CreateComment.jsx";
 
 export const Post = () => {
   const { currentUser } = useContext(UserContext);
@@ -25,7 +26,7 @@ export const Post = () => {
     for(let i = 0; i < res.length; i++) {
       if(!res[i].text) break;
       p.comments.push({
-        id: res[i].id,
+        postId: res[i].id,
         text: res[i].text,
         commentUsername: res[i].commentUsername
       })
@@ -41,12 +42,13 @@ export const Post = () => {
 
       <div className={pcss.middle}>
         {post?.comments?.length && post.comments.map((c,i) => (
-          <div key={`comment-${c.id}`}>
+          <div key={`comment-${i}`}>
             {c.commentUsername} #{i+1}
             -{c.text}
           </div>
         ))}
       </div>
+      <CreateComment postId={parseInt(postId)} currentUser={currentUser} post={setPost} test={post}/>
     </div>
   );
 };
