@@ -14,7 +14,9 @@ export const Home = () => {
 
   return (
     <div className={css.container}>
-      <CreateGroup groups={{ groups, setGroups }} />
+      <div className={css.createGroup}>
+        <CreateGroup groups={{ groups, setGroups }} />
+      </div>
       <div className={css.groupContainer}>
       {groups.map(g => (
         <div key={g.name} className={css.groupCard} onClick={() => history.push(`/g/${g.name}`)}>

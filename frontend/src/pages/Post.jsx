@@ -11,9 +11,9 @@ export const Post = () => {
   const [post, setPost] = useState({})
   const history = useHistory()
 
-  useEffect(async() => {
+  useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response
-    if(!res?.length) return history.push("/page/404")
+    if (!res?.length) return history.push("/page/404")
     let p = {
       title: res[0]?.title,
       posterName: res[0]?.posterName,
@@ -22,8 +22,8 @@ export const Post = () => {
         commentUsername: '@' + res[0]?.posterName
       }]
     }
-    for(let i = 0; i < res.length; i++) {
-      if(!res[i].text) break;
+    for (let i = 0; i < res.length; i++) {
+      if (!res[i].text) break;
       p.comments.push({
         id: res[i].id,
         text: res[i].text,
@@ -35,17 +35,21 @@ export const Post = () => {
 
   return (
     <div className={pcss.container}>
-      <div className={`${pcss.title}`}>
-        <h1>{post.title}</h1>
-      </div>
+      <div className={pcss.post}>
+        <div className={`${pcss.title}`}>
+          <h3>{post.title}</h3>
+        </div>
 
-      <div className={pcss.middle}>
-        {post?.comments?.length && post.comments.map((c,i) => (
-          <div key={`comment-${c.id}`}>
-            {c.commentUsername} #{i+1}
-            -{c.text}
-          </div>
-        ))}
+        <div className={pcss.middle}>
+          {post?.comments?.length && post.comments.map((c, i) => (
+            <div key={`comment-${c.id}`} className={pcss.poster}>
+              {c.commentUsername} #{i + 1}
+              <div className={pcss.postContent}>
+                {c.text}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

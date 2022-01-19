@@ -1,10 +1,12 @@
 .container {
-  background-color: gray;
+  background-color: var(--darkGrey, #d7d7d7);
   width: 80%;
   padding: 5px;
   margin-right: auto;
   margin-left: auto;
-
+  margin-top: 4vh;
+  padding-top: 20px;
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +25,19 @@
 }
 .right {
   width: 100%;
+  text-align: right;
+}
+
+.pContain {
+  width: 95%;
+}
+
+.desc {
+  text-align: left;
+  width: 80%;
+}
+
+.createCont {
   text-align: right;
 }
 

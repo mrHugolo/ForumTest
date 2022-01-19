@@ -107,7 +107,8 @@ export const Group = () => {
       </div>
       <div className={gcss.middle}>
         <h1>{group.name}</h1>
-        <div>{partOfDesc()}</div>
+        <div className={gcss.desc}>{partOfDesc()}</div>
+        <br />
       </div>
       <div className={gcss.bottom}>
         {group.posts &&
