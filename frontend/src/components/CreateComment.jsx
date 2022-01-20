@@ -32,7 +32,10 @@ export const CreateComment = (props) => {
                 commentUsername: props.currentUser.username
             }
             tempComment.push(tempObj)
-            props.post((p) => ({ ...p, comments: tempc }))
+            props.post((p) => ({ ...p, comments: tempComment }))
+
+            //check later alligator to-do
+           // props.post((p) => ({ ...p, comments: [...p.comments,{...p, text:res.text , commentUsername:props.currentUser.username}]}))
         }
         setShowInput(false)
     }

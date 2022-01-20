@@ -16,12 +16,6 @@ export const CreateGroup = ({ groups }) => {
     }
     let name = document.getElementById("createGroup-groupName")
     let desc = document.getElementById("createGroup-groupDesc")
-
-    if (!name?.value || name?.value == "Name not available") {
-      name.value = ""
-      setIsHidden(true)
-      return
-    }
   
     const obj = {
       name: name?.value,
