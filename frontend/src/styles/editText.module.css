@@ -1,0 +1,16 @@
+.tArea{
+/*     background-color: transparent;
+ */ height: 105px;
+    width: 90%;
+    resize: none;
+    overflow: hidden;
+    height:250px;
+    max-height:250px;
+    background-color: rgb(231, 231, 230);
+    font-size: large;
+
+}
+
+.tAreaWrapper{
+  text-align: center;
+}

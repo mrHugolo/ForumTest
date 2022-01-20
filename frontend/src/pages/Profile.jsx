@@ -1,26 +1,26 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import pcss from "../styles/profile.module.css"
 import css from "../styles/index.module.css"
 import { Fetch } from "../utils/fetch";
-import { BsFillPencilFill } from "react-icons/bs"
 import { CreateGroup } from "../components/CreateGroup";
+import { FormatText } from "../components/FormatText";
+import { EditText } from "../components/EditText";
 
 export const Profile = () => {
   const {currentUser} = useContext(UserContext)
   const {userName} = useParams()
   const [user, setUser] = useState({})
-  const [isEdit, setIsEdit] = useState(false)
-  const [groups,setGroups]= useState([])
   const history =useHistory()
 
   useEffect( async () => {
+    if(!currentUser) return 
     let info = (await Fetch(`rest/profile/${userName}`)).response
     let u = {
       name: info[0].username,
       description: info[0].description,
-      groups: info[0].names.split('ᴥ'),
+      groups: (info[0].names? info[0].split('ᴥ'): undefined),
       isMyProfile: currentUser?.username == userName,
       comments: []
     }
@@ -31,45 +31,20 @@ export const Profile = () => {
         //time: info[i].time    //Then sort by time
       })
     }
+  
     setUser(u)
   }, [currentUser,userName])
 
-
-  const handleEdit = async (e) => {
-    if(e.key != 'Enter' || e.shiftKey) return
-    setIsEdit(false)
-    let res = (await Fetch(`rest/editDescription`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({description: e.target.value}),
-    })).response
-    if(res.status == 200) {
-      setUser(p => ({ ...p, description: e.target.value }))
-    } 
-  }
-
-  const memoIcon = useMemo(()=>{
-    return <BsFillPencilFill />;
-  },[])
-
-  const handleGoToPost=async(pId)=>{
-    let gName= (await Fetch(`rest/groupName/${pId}`)).response
-    console.log("what is gname ?", gName);
-    history.push(`/g/${gName.name}/p/${pId}`)
-  }
+ 
 
   return (
     <div className={pcss.container}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
-        {user.isMyProfile && (
-          <div onClick={() => setIsEdit(p => !p)}>{memoIcon}</div>
-        )}
-        {isEdit ? (
-          <textarea onKeyPress={handleEdit} defaultValue={user.description}></textarea>
-        ) : (
-          <div className={pcss.left}> {user.description}</div>
-        )}
+        {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description}/>} 
+          <div className={pcss.left}>
+            <FormatText textToFormat={user.description} />
+          </div>
       </div>
       {user.isMyProfile &&
       <div className={css.w100}>

@@ -23,6 +23,9 @@ export const Navbar = ({ changeTheme, dark }) => {
       method: "DELETE",
     });
     setCurrentUser("");
+    //logout got home and reload page
+    history.push("/")
+    window.location.reload("false")
     console.log("logged oout from session");
   };
 

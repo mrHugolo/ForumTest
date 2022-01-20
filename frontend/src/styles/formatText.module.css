@@ -1,0 +1,22 @@
+.lineCode {
+  padding: 0px 20px;
+  margin: 0px 50px;
+  background-color: rgb(47, 49, 54);
+  font-family: monospace;
+  font-size: 1rem;
+}
+.keyWord {
+  color: #859900;
+}
+
+.console {
+  color: #dc322f;
+}
+
+.number {
+  color: #2aa198;
+}
+
+.normalText{
+    color:rgb(243, 232, 212)
+}
