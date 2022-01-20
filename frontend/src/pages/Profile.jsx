@@ -3,10 +3,12 @@ import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import pcss from "../styles/profile.module.css"
 import css from "../styles/index.module.css"
+import gcss from "../styles/group.module.css"
 import { Fetch } from "../utils/fetch";
 import { CreateGroup } from "../components/CreateGroup";
 import { FormatText } from "../components/FormatText";
 import { EditText } from "../components/EditText";
+import {DeleteContent} from "../components/DeleteContent"
 
 export const Profile = () => {
   const {currentUser} = useContext(UserContext)
@@ -15,12 +17,13 @@ export const Profile = () => {
   const history =useHistory()
 
   useEffect( async () => {
-    if(!currentUser) return 
+    if(!currentUser) return
     let info = (await Fetch(`rest/profile/${userName}`)).response
+    if (!info.length || userName == "[deleted]") return history.push("page/404")
     let u = {
       name: info[0].username,
       description: info[0].description,
-      groups: (info[0].names? info[0].split('ᴥ'): undefined),
+      groups: info[0].names?.split('ᴥ'),
       isMyProfile: currentUser?.username == userName,
       comments: []
     }
@@ -61,6 +64,7 @@ export const Profile = () => {
       {user.comments && user.comments.map(((c,i)=>(
         <div className={css.groupCard} onClick={()=>handleGoToPost(c.postId)} key={`profileComment-${i}`}>{c.text}</div>
       ) ))}
+      {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}
     </div>
   );
 };
