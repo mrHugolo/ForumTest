@@ -18,7 +18,7 @@ module.exports = function restPost(app, db) {
   });
 
   app.get("/rest/post/:postId", (req, res) => {
-    db.all(`SELECT text, (SELECT username FROM user WHERE id = userId) AS commentUsername,
+    db.all(/* sql */`SELECT text,timestamp, (SELECT username FROM user WHERE id = userId) AS commentUsername,
           (SELECT id FROM post WHERE id =?) AS id,
           (SELECT title FROM post WHERE id =?) AS title,
           (SELECT content FROM post WHERE id =?) AS content,

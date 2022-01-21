@@ -32,6 +32,7 @@ export const CreateComment = (props) => {
       };
       tempComment.push(tempObj);
       props.post((p) => ({ ...p, comments: tempComment }));
+      props.render(p=>!p)
 
       //check later alligator to-do
       // props.post((p) => ({ ...p, comments: [...p.comments,{...p, text:res.text , commentUsername:props.currentUser.username}]}))

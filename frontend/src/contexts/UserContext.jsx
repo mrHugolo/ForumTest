@@ -7,14 +7,19 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState("");
 
   const fetchCurrentUser = async () => {
-    let res = await fetch("/api/whoami");
+    let res = await fetch("/api/whoami", {
+      method: "GET",
+      headers: { "content-type": "application/json" },
+    });
+    //console.log("ok??",await res.json());
     try {
       let user = await res.json();
       if (user) {
         setCurrentUser(user);
       }
+      else console.log("No user yet");
     } catch (e) {
-      console.log("No User yet", e);
+      console.log("Error: ", e);
     }
   };
 

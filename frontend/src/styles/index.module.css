@@ -160,6 +160,9 @@ textarea {
   cursor: pointer;
   background-color: var(--lightGrey, #5c5c5c);
   color: var(--nearBlack, white);
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
 .createGroup {
