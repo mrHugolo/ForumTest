@@ -20,11 +20,13 @@ export const Profile = () => {
     if(!currentUser) return
     let info = (await Fetch(`rest/profile/${userName}`)).response
     if (!info.length || userName == "[deleted]") return history.push("page/404")
+
     let u = {
       name: info[0].username,
       description: info[0].description,
       groups: info[0].names?.split('ᴥ'),
       isMyProfile: currentUser?.username == userName,
+      postId:info[0].postId,
       comments: []
     }
     for(let i = 0; i < info.length; i++) {
@@ -34,6 +36,7 @@ export const Profile = () => {
         //time: info[i].time    //Then sort by time
       })
     }
+
   
     setUser(u)
   }, [currentUser,userName])
@@ -66,7 +69,7 @@ export const Profile = () => {
     }
       <h2> Comments:</h2>
       {user.comments && user.comments.map(((c,i)=>(
-        <div className={css.groupCard} onClick={()=>handleGoToPost(c.postId)} key={`profileComment-${i}`}>{c.text}</div>
+        <div className={css.groupCard} onClick={()=> console.log("It should go to the post page (maybe??)")/*  history.push(`${c.postId}`*/} key={`profileComment-${i}`}>{c.text}</div>
       )))}
         <div className={css.center}>
       {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}

@@ -38,7 +38,9 @@ export const Post = () => {
 
   return (
     <div className={pcss.container}>
-      <div className={`${pcss.title}`}>
+      <div className={pcss.post}>
+
+      <div className={pcss.title}>
         <h1>{post.title}</h1>
         <h3>{post.posterName}</h3>
         <h4>{post.content}</h4>
@@ -52,7 +54,7 @@ export const Post = () => {
                 <div>#{i + 1}-{c.commentUsername}</div>
                 {/*  
                 NOT SURE IF EDIT COMMENT WILL BE USED. here we can add the remove button for moderator maybe
-                {currentUser.username && currentUser.username==c.commentUsername &&<EditText setEditText={setPost} editText={c.description}/>}  */}
+              {currentUser.username && currentUser.username==c.commentUsername &&<EditText setEditText={setPost} editText={c.description}/>}  */}
                 </div>
               <div className={pcss.commentText}>
                 <FormatText textToFormat={c.text} />
@@ -65,7 +67,8 @@ export const Post = () => {
         currentUser={currentUser}
         post={setPost}
         test={post}
-      />
+        />
+        </div>
     </div>
   );
 };
