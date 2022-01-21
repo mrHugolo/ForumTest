@@ -3,7 +3,7 @@ const { json } = require("body-parser");
 module.exports = function restGroup(app, db) {
 
   app.get("/rest/g/:groupName", (req, res) => {
-    db.all(/*sql*/`SELECT name, description, userId, title, post.id AS postId, (
+    db.all(/*sql*/`SELECT [group].id AS id, name, description, userId, title, post.id AS postId, (
         SELECT COUNT(*) FROM [user], userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = (SELECT id FROM [group] WHERE name = ?)
         ) AS amount FROM [group], post WHERE groupId = (
         SELECT id FROM [group] WHERE name = ?
@@ -13,12 +13,15 @@ module.exports = function restGroup(app, db) {
       else {
         db.all(/* sql */`SELECT *, (SELECT COUNT(*) FROM userXgroup WHERE groupId = (SELECT id FROM [group] WHERE name = ?)) AS amount FROM [group] WHERE name = ?`, [req.params.groupName, req.params.groupName], (elseErr, elseRow) => {
           if(elseErr) throw elseErr
-          if(!elseRow.length) res.send({response: {status: 404}})
+          if(!elseRow.length){
+            res.sendStatus(404)
+         //   res.send({response: {status: 404}})
+        }
           else res.send({response: elseRow})
         })
       }      
     })
-  })
+  }) 
 
   app.get("/rest/groups", (req, res) => {
     db.all("SELECT * FROM [group]", [], (err, rows) => {
@@ -33,7 +36,7 @@ module.exports = function restGroup(app, db) {
       db.get("SELECT role FROM [userXgroup] WHERE userId = ? AND groupId = ?", [sessionUser.id, row1.id], (err2, row2) => {
         if (err2) throw err2
         res.send({ response: row2?.role })
-      })
+      }) 
     })
   })
 
@@ -41,9 +44,7 @@ module.exports = function restGroup(app, db) {
     db.get(`SELECT id FROM [group] WHERE name = ?`, [req.params.groupName], (err1, row1) => {
       if (err1) throw err1
       db.all(
-        /*sql*/`SELECT username FROM user WHERE id IN (
-        SELECT user.id FROM [user], userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = ?
-        )`,
+        /*sql*/`SELECT username, role FROM user, userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = ? AND username IS NOT '[deleted]'`,
         [row1.id], (err2, rows2) => {
           if (err2) throw err2
           res.send({ response: rows2 })
@@ -64,9 +65,17 @@ module.exports = function restGroup(app, db) {
   app.get("/rest/groupName/:postId", (req,res)=>{
     db.get(/* sql */`SELECT name from [group] WHERE id=(SELECT groupId FROM post WHERE id=?)`,[req.params.postId],(err,row)=>{
       if(err) throw err
-      res.send({response: row})
+      else if(!row) res.sendStatus(404)
+      else res.send({response: row})
     })
 
+  })
+
+  app.get("/rest/isGroupAdmin", (req, res)=> {
+    db.get("SELECT groupId from userXgroup WHERE userId = ? AND role = 'GroupAdmin'", [sessionUser.id], (err, row) => {
+      if(err) throw err
+      res.send({response: row?.groupId})
+    })
   })
 
   app.post("/rest/group", (req, res) => {
@@ -136,6 +145,13 @@ module.exports = function restGroup(app, db) {
           res.send({ response: true })
         })
       })
+    })
+  })
+
+  app.patch("/rest/changeRole/:groupname/:username/:role", (req, res) => {
+    db.get("UPDATE userXgroup SET role = ? WHERE userId = (SELECT id FROM user WHERE username = ?) AND groupId = (SELECT id FROM [group] WHERE NAME = ?)", [req.params.role, req.params.username, req.params.groupname], (err, row) => {
+      if (err) throw err
+      res.send({response: {status: 200}})
     })
   })
 

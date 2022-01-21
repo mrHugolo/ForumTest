@@ -9,10 +9,12 @@ import { Page404 } from "./pages/Page404";
 import { Post } from "./pages/Post";
 import { Profile } from "./pages/Profile";
 import { Register } from "./pages/Register";
+import { GroupMembers } from "./pages/GroupMembers";
 
 import { UserProvider } from "./contexts/UserContext";
 
 import css from "./styles/index.module.css";
+
 
 function App() {
   const [dark, setDark] = useState(false)
@@ -27,6 +29,7 @@ function App() {
             <Route exact path="/register" component={Register} />
             <Route exact path="/:userName" component={Profile} />
             <Route exact path="/g/:groupName" component={Group} />
+            <Route exact path="/g/:groupName/members" component={GroupMembers} />
             <Route exact path="/g/:groupName/p/:postId" component={Post} />
             <Route path="*" component={Page404} />
           </Switch>

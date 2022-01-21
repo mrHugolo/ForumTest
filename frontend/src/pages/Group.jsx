@@ -6,6 +6,7 @@ import gcss from "../styles/group.module.css";
 
 import { FaUserAlt } from "react-icons/fa";
 import { UserContext } from "../contexts/UserContext.jsx";
+import { CreatePost } from "../components/CreatePost.jsx";
 
 export const Group = () => {
   const { currentUser } = useContext(UserContext);
@@ -19,6 +20,7 @@ export const Group = () => {
     if (info.status == 404) return history.push("/page/404");
     console.log("info now :",info);
     let g = {
+      id: info[0]?.id,
       name: info[0]?.name,
       description: info[0]?.description,
       amount: info[0]?.amount,
@@ -86,10 +88,14 @@ export const Group = () => {
     return group.description;
   };
 
+  const goToMembers = () => {
+    if(role == "GroupAdmin" || role == "Moderator") history.push(`/g/${groupName}/members`)
+  }
+
   return (
     <div className={gcss.container}>
       <div className={gcss.top}>
-        <span className={css.left}>
+        <span onClick={goToMembers} className={css.left}>
           <FaUserAlt /> {group.amount}
         </span>
         <button
@@ -101,7 +107,8 @@ export const Group = () => {
       </div>
       <div className={gcss.middle}>
         <h1>{group.name}</h1>
-        <div>{partOfDesc()}</div>
+        <div className={gcss.desc}>{partOfDesc()}</div>
+        <br />
       </div>
       <div className={gcss.bottom}>
         {group.posts &&
@@ -115,6 +122,7 @@ export const Group = () => {
             </div>
           ))}
       </div>
+      {role && <CreatePost group={{ group }} />}
     </div>
   );
 };

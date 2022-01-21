@@ -46,7 +46,7 @@ h3 {
 
 .container {
   text-align: center;
-  width: 50%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   line-height: 32pt;
@@ -115,12 +115,29 @@ textarea {
 
 .navbar {
   border-bottom: solid 5px var(--purple);
+  
+}
+.navbar h1 {
+  cursor: pointer;
+}
+.navbar h4 {
+  cursor: pointer;
+  vertical-align: text-bottom;
+  
 }
 
 .loginCreateWrapper {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
+
+.loginCreateWrapper span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 
 /* HOME VIEW classes */
 
@@ -128,25 +145,29 @@ textarea {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  padding-bottom: 2vh;
+  padding-top: 1vh;
+  width: 95%;
 }
 
 .groupCard {
-  border: 1px solid black;
   border-radius: 4px;
   margin-bottom: 10px;
   padding-left: 20px;
   text-align: left;
   width: 100%;
   cursor: pointer;
+  background-color: var(--lightGrey, #5c5c5c);
+  color: var(--nearBlack, white);
 }
 
 .createGroup {
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
-
+  width: 95%;
+  text-align: right;
 }
+
 
 .hide {
   display: none;
@@ -160,11 +181,17 @@ textarea {
   align-self: left;
 }
 
+.center {
+  
+  text-align: center;
+}
+
 .Cpointer {
   cursor: pointer;
 }
 
 .borderBottom {
+  text-align: right;
   border-bottom: 1px solid black;;
 }
 

@@ -45,7 +45,7 @@ export const Login = () => {
   return (
     <>
       <div className={css.container}>
-        <div className={css.headline}><h3>Login</h3><hr /></div>
+        <div className={css.headLine}><h3>Login</h3><hr /></div>
         <br />
 
       <form className="" onSubmit={login}>
