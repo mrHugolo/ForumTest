@@ -42,6 +42,7 @@ export const Profile = () => {
 
   return (
     <div className={pcss.container}>
+      <div className={pcss.pContain}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
         {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description}/>} 
@@ -52,19 +53,25 @@ export const Profile = () => {
       {user.isMyProfile &&
       <div className={css.w100}>
         <h2>Groups:</h2>
-          <CreateGroup groups={{ groups: user.groups }} />
+          
         {user.groups ? user.groups.map(g => (
         <div key={`profileGroup-${g}`} onClick={()=>{history.push(`/g/${g}`)}} className={css.groupCard}>
           {g}
         </div>
-      )) : (<div>No groups yet!</div>)}
+        )) : (<div>No groups yet!</div>)}
+            <div className={pcss.createCont}>
+              <CreateGroup groups={{ groups: user.groups }} />
+            </div>
       </div>
     }
       <h2> Comments:</h2>
       {user.comments && user.comments.map(((c,i)=>(
         <div className={css.groupCard} onClick={()=>handleGoToPost(c.postId)} key={`profileComment-${i}`}>{c.text}</div>
-      ) ))}
+      )))}
+        <div className={css.center}>
       {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}
+        </div>
+      </div>
     </div>
   );
 };

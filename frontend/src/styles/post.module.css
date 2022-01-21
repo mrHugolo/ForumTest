@@ -1,13 +1,16 @@
 .container {
 /*   background-color: gray; */
+  background-color: var(--darkGrey, #d7d7d7);
   width: 80%;
   padding: 5px;
   margin-right: auto;
   margin-left: auto;
-
+  margin-top: 4vh;
+  padding-top: 20px;
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
 }
 
 .title {
@@ -35,4 +38,23 @@
 .commentText{
     background-color: rgb(192, 189, 189);
 
+  /* border-bottom: 1px solid black; */
+  text-align: left;
+  
+}
+
+.post {
+  text-align: center;
+  width: 95%;
+}
+
+.poster {
+  /* background-color: blueviolet; */
+  text-align: left;
+}
+
+.postContent {
+  background-color: var(--lightGrey, #5c5c5c);
+  color: var(--nearBlack, white);
+  padding: 5px;
 }

@@ -23,12 +23,18 @@ module.exports = (app, db) => {
   }
 
   app.post("/api/register", async (req, res) => {
+
+    // check empty request
+    if (!req.body.username || !req.body.password || !req.body.email) {
+      res.sendStatus(404);
+      return; 
+    }
     let user = req.body;
     let checkEmail = /*sql*/ `SELECT email,username FROM user WHERE email=? OR username =?`;
     db.get(checkEmail, [user.email, user.username], (err, rows) => {
       if (err) throw err;
       else if (rows)
-        res.send(
+        res.json(
           (rows.email == user.email ? "email" : "username") + " already in use"
         );
       else {
@@ -38,23 +44,31 @@ module.exports = (app, db) => {
             /*sql*/ `INSERT INTO user (username,email,password,isBanned,description) VALUES(?,?,?,?,?)`,
             [user.username, user.email, hash, user.isBanned, user.description]
           );
-          //res.status(200); // ok?
-          res.send(user);
+          delete user.password
+          res.json(user);
         } catch (e) {
           console.error("error", e);
         }
       }
-    }); 
+    });
   });
 
   app.post("/api/login", async (req, res) => {
-    let ip =  req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-    console.log(ip);
+    // check empty request
+     if (!req.body.username || !req.body.password) {
+       console.log("gols");       
+       res.send("Nothing to process"); 
+       return
+     }
+    // let ip =  req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    //console.log(ip);
 
     if (req.session.user !== undefined && req.session.user) {
-      res.send(req.session.user.username + " already logged in session");  
+      res.send(req.session.user.username + " already logged in session");
       return;
     }
+
+   
 
     let hash = getHash(req.body.password); 
 
@@ -67,8 +81,8 @@ module.exports = (app, db) => {
         delete rows.password;
         res.send(rows);
       } else {
-        res.status(401); // unauthorized
-        res.json({ response: "bad credentials" });
+        res.sendStatus(401); // unauthorized
+        res.json({ response: "bad credentials" })
       }
     });
   });
@@ -86,7 +100,6 @@ module.exports = (app, db) => {
   app.delete("/api/logout", async (req, res) => {
     if (req.session.user) {
       delete req.session.user;
-      res.status("200");
       res.send("Logged out from session");
     } else res.send("no one in logged in session");
   });

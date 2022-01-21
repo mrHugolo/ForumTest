@@ -27,6 +27,9 @@ export const Navbar = ({ changeTheme, dark }) => {
     history.push("/")
     window.location.reload("false")
     console.log("logged oout from session");
+    console.log("history loc", history.location.pathname);
+    if (history.location.pathname == "/") return; 
+    history.push("/")
   };
 
   const goToPage = (e) => {
@@ -40,8 +43,10 @@ export const Navbar = ({ changeTheme, dark }) => {
       <div className={css.loginCreateWrapper}>
         <h1 onClick={goToPage} id="/">Hidden Forum</h1>
         {currentUser ? (<>
-          <h4 onClick={goToPage} id={`/${currentUser.username}`}>my profile</h4>
-          <h4 onClick={logout}>Logout</h4>
+          <span>
+          <h4 onClick={goToPage} id={`/${currentUser.username}`}>{currentUser.username}'s profile</h4>
+            <h4 onClick={logout}>Logout</h4>
+          </span>
         </>
 
         ) : (<>
