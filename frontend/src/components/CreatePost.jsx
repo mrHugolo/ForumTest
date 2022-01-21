@@ -34,9 +34,13 @@ export const CreatePost = ({ group }) => {
       title.placeholder = "Please add a title to your post"
       cont.placeholder = "Please add some content to your post"
       return
+    }else{
+
     }
+    
+    console.log("res from gorup",res);
 
-
+    
     setIsHidden(true)
     history.push(`/g/${group.group.name}/p/${res}`)
 

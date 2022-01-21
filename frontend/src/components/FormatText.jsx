@@ -4,9 +4,9 @@ import ftcss from "../styles/formatText.module.css";
 export const FormatText = ({ textToFormat }) => {
   const [text, setText] = useState([]);
 
-  let array = [];
-  let array2 = [];
-  let array3 = [];
+  let array = []; //  for words  format
+  let array2 = []; // for code
+  let array3 = []; //for links
 
   useEffect(() => {
     let l = textToFormat;
@@ -21,7 +21,7 @@ export const FormatText = ({ textToFormat }) => {
         if (!a) {
           const spliNotCode = x.split(/(?=\`\`\`).*(?<=\`\`\`)/gs);
           if (spliNotCode[0]) {
-            console.log("cero", spliNotCode[0]);
+         //   console.log("cero", spliNotCode[0]);
 
             array.push(spliNotCode[0]);
           }
@@ -30,7 +30,7 @@ export const FormatText = ({ textToFormat }) => {
             array.push(matchCode);
           }
           if (spliNotCode[1]) {
-            console.log("cero", spliNotCode[1]);
+           // console.log("cero", spliNotCode[1]);
             array.push(spliNotCode[1]);
           }
         } else {
@@ -82,13 +82,13 @@ export const FormatText = ({ textToFormat }) => {
               for (let h = 0; h < y.length; h++) {
                 //console.log("Y[H]",y[h]);
                 if (y[h] == "const" || y[h] == "let" || y[h] == "for") {
-                  temp.push(<span className={ftcss.keyWord}>{y[h]}</span>);
+                  temp.push(<span key={`${y}-${h}`} className={ftcss.keyWord}>{y[h]}</span>);
                 } else if (y[h] == "console") {
-                  temp.push(<span className={ftcss.console}>{y[h]}</span>);
+                  temp.push(<span key={`${y}-${h}`} className={ftcss.console}>{y[h]}</span>);
                 } else if (!isNaN(y[h])) {
-                  temp.push(<span className={ftcss.number}>{y[h]}</span>);
+                  temp.push(<span key={`${y}-${h}`} className={ftcss.number}>{y[h]}</span>);
                 } else {
-                  temp.push(<span className={ftcss.normalText}>{y[h]}</span>);
+                  temp.push(<span key={`${y}-${h}`} className={ftcss.normalText}>{y[h]}</span>);
                 }
               }
             }
@@ -98,37 +98,69 @@ export const FormatText = ({ textToFormat }) => {
               </div>
             );
           }
-          array2.push(<br />);
         } else {
           array2.push(array[p]);
         }
       } else array2.push(array[p]);
     }
 
+    // IMPORATN  
+    //https://www.jitbit.com/alexblog/256-targetblank---the-most-underestimated-vulnerability-ever/
+
     for (let m = 0; m < array2.length; m++) {
       if (!array2[m].type) {
+        array2[m].split(/(https?:\/\/\S+)/g).filter((x) => x.length > 0).map((x) => {
+          const a = /(https?):\/\/(\S+)/.exec(x);
+          if(!a) array3.push(x)
+          else {
+           // let templinkName=x.split(/https:\/\/\w+\./)
+            //console.log("link name :",templinkName)
 
-        const linkFormat = array2[m].match(
-          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-        );
-        if (linkFormat) console.log("link frma", linkFormat);
-        else console.log("no mach", array2[m]);
-
-      }
+            if(/[webp,jpg]$/.test(x)){
+              array3.push(
+                <a
+                  style={{ display: "table-cell" }}
+                  href={x}
+                  target="_blank"
+                  rel="noopener noreferrer" // *****VERY VERY IMPORTANT'****
+                >
+                  <img className={ftcss.picture} href={x} src={x} />
+                </a>
+              );
+            }
+            else
+              array3.push(
+                <a
+                style={{ display: "table-cell" }}
+                href={x}
+                target="_blank"
+                rel="noopener noreferrer" // *****VERY VERY IMPORTANT'****
+                >
+                {x}
+              </a>
+            );
+          
+          }
+        })
+      }      
       else array3.push(array2[m])
     }
+    //console.log("array tres ", array3);      
+       // const linkFormat = array2[m].match(
+         // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+        //);
+       /*  if (linkFormat)
+         console.log("link frma", linkFormat);
+        else
+         console.log("no mach", array2[m]); */       
 
-    setText(array2);
-    console.log(array2);
+    setText(array3);
+   // console.log(array2);
   }, [textToFormat]);
 
   return (
-    <div>
-      <div style={{whiteSpace:"pre-wrap"}}>
-        {text.map((x, i) => (
-          <span key={`${x}${i}`}>{x}</span>
-        ))}
-      </div>
+    <div style={{whiteSpace:"pre-wrap"}}>
+        {text.map((x, i) => <span key={i}>{x}</span>)}
     </div>
   );
 };

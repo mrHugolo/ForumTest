@@ -9,7 +9,7 @@ export const Login = () => {
   let history = useHistory();
 
   useEffect(() => {
-    if (currentUser) history.push("/");
+    if (currentUser) history.goBack();
   }, [currentUser]);
 
   const gotoPage = () => {

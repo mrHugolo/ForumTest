@@ -68,7 +68,6 @@ export const EditText =({editText,setEditText})=>{
       textArea.selectionEnd
     );
     let g = selected.split(/\W+/g);
-    console.log(g);
 
     textArea.setRangeText(`\`\`\`${selected}\`\`\``);
   };
