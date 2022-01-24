@@ -3,7 +3,7 @@ const { json } = require("body-parser");
 module.exports = function restGroup(app, db) {
 
   app.get("/rest/g/:groupName", (req, res) => {
-    db.all(/*sql*/`SELECT [group].id AS id, name, description, userId, title, post.id AS postId, (
+    db.all(/*sql*/`SELECT [group].id AS id, name, description, userId, title, post.isDeleted AS isDeleted, post.id AS postId, (
         SELECT COUNT(*) FROM [user], userXgroup WHERE user.id = userXgroup.userId AND userXgroup.groupId = (SELECT id FROM [group] WHERE name = ?)
         ) AS amount FROM [group], post WHERE groupId = (
         SELECT id FROM [group] WHERE name = ?
@@ -55,7 +55,7 @@ module.exports = function restGroup(app, db) {
   app.get("/rest/posts/:groupName", (req, res) => {
     db.get("SELECT id FROM [group] WHERE name = ?", [req.params.groupName], (err1, row1) => {
       if (err1) throw err1
-      db.all("SELECT id, title FROM [post] WHERE groupId = ?", [row1?.id], (err2, rows2) => {
+      db.all("SELECT id, title, isDeleted FROM [post] WHERE groupId = ?", [row1?.id], (err2, rows2) => {
         if (err2) throw err2
         res.send({ response: rows2 })
       })
