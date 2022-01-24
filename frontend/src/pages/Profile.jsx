@@ -20,6 +20,7 @@ export const Profile = () => {
     if(!currentUser) return
     let info = (await Fetch(`rest/profile/${userName}`)).response
     if (!info.length || userName == "[deleted]") return history.push("page/404")
+    //console.log("new info show me nwo!! ", info);
 
     let u = {
       name: info[0].username,
@@ -32,14 +33,26 @@ export const Profile = () => {
     for(let i = 0; i < info.length; i++) {
       u.comments.push({
         text: info[i].text,
-        postId: info[i].postId
-        //time: info[i].time    //Then sort by time
+        postId: info[i].postId,
+        timestamp: info[i].timestamp
       })
     }
 
   
     setUser(u)
   }, [currentUser,userName])
+
+
+
+  const gotopost=async(x)=>{
+    let res = (await Fetch(`rest/profile/comment/${x}`)).response
+    if(res){      
+      let pageName= res.title
+      history.push(`/g/${pageName}/p/${x}`)
+    }
+    else console.log("what could have gone wrong???")
+
+  }
 
  
 
@@ -69,7 +82,10 @@ export const Profile = () => {
     }
       <h2> Comments:</h2>
       {user.comments && user.comments.map(((c,i)=>(
-        <div className={css.groupCard} onClick={()=> console.log("It should go to the post page (maybe??)")/*  history.push(`${c.postId}`*/} key={`profileComment-${i}`}>{c.text}</div>
+        <div key={`profileComment-${i}`}>
+          <div>{c.timestamp /* PUT ME IN A NICE DIV */ }</div>
+          <div className={css.groupCard} onClick={()=>gotopost(c.postId)}>{c.text}</div>
+        </div>
       )))}
         <div className={css.center}>
       {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}

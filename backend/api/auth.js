@@ -91,10 +91,10 @@ module.exports = (app, db) => {
     if (req.session.user !== undefined && req.session.user) {
       let currentUser = req.session.user;
       delete currentUser.password;
-      res.send(currentUser);
+      res.json(currentUser);
       return;
     }
-    res.send("no user yet");
+    res.json("no user yet");
   });
 
   app.delete("/api/logout", async (req, res) => {

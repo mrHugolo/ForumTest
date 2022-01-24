@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Fetch } from "../utils/fetch.js";
 import pcss from "../styles/post.module.css";
@@ -16,11 +16,13 @@ export const Post = () => {
   const history = useHistory();
   const [role, setRole] = useState("");
 
+  const [render,setRender] =useState(false)
 
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
     if (!res?.length) return history.push("/page/404");
-    
+   // console.log("new info show me nwo!! ", res);
+   
     let p = {
       title: res[0]?.title,
       posterName: res[0]?.posterName,
@@ -34,11 +36,16 @@ export const Post = () => {
         postId: res[i].id,
         text: res[i].text,
         commentUsername: res[i].commentUsername,
-        commentId: res[i].commentId
+        commentId: res[i].commentId,
+        timestamp:res[i].timestamp
       });
     }
     setPost(p);
-  }, []);
+  }, [render]);
+
+
+ 
+
 
   useEffect(async () => {
     if (currentUser?.id)
@@ -83,7 +90,8 @@ export const Post = () => {
             post.comments.map((c, i) => (
             <div key={`comment-${i}`} className={pcss.commentCard}>
               <div className={pcss.commenter}>
-                <div>#{i + 1} {c.commentUsername}</div>
+                <div>#{i + 1} {c.commentUsername}</div>      
+                <div>{c.timestamp /* put me in a anice div!!!  */}</div>
                 {/*  
                 NOT SURE IF EDIT COMMENT WILL BE USED. here we can add the remove button for moderator maybe
               {currentUser.username && currentUser.username==c.commentUsername &&<EditText setEditText={setPost} editText={c.description}/>}  */}
@@ -102,6 +110,7 @@ export const Post = () => {
         currentUser={currentUser}
         post={setPost}
         test={post}
+        render={setRender}
         />
         </div>
     </div>

@@ -18,7 +18,7 @@ export const Group = () => {
   useEffect(async () => {
     let info = (await Fetch(`rest/g/${groupName}`)).response;
     if (info.status == 404) return history.push("/page/404");
-    console.log("info now :",info);
+    //console.log("info now :",info);
     let g = {
       id: info[0]?.id,
       name: info[0]?.name,
