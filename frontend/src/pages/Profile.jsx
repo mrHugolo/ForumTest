@@ -17,7 +17,7 @@ export const Profile = () => {
   const history =useHistory()
 
   useEffect( async () => {
-    if(!currentUser) return
+    if(!currentUser.username) return history.push("page/403")
     let info = (await Fetch(`rest/profile/${userName}`)).response
     if (!info.length || userName == "[deleted]") return history.push("page/404")
     //console.log("new info show me nwo!! ", info);

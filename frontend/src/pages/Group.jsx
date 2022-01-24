@@ -24,17 +24,17 @@ export const Group = () => {
       name: info[0]?.name,
       description: info[0]?.description,
       amount: info[0]?.amount,
-      posts: []
+      posts: [],
     };
 
     for (let i = 0; i < info.length; i++) {
       g.posts.push({
         title: info[i].title,
         postId: info[i].postId,
-        isDeleted: info[i].isDeleted
-      })
+        isDeleted: info[i].isDeleted,
+      });
     }
-    console.log(g.posts);
+    //onsole.log(g.posts);
     setGroup(g);
   }, []);
 
@@ -65,7 +65,7 @@ export const Group = () => {
       setGroup((p) => ({ ...p, amount: p.amount + 1 }));
     }
 
-    console.log(res);
+    //console.log(res);
   };
 
   const leaveGroup = async () => {
@@ -82,7 +82,7 @@ export const Group = () => {
       setRole(undefined);
       setGroup((p) => ({ ...p, amount: p.amount - 1 }));
     }
-    console.log(res);
+ //  console.log(res);
   };
 
   const partOfDesc = () => {

@@ -1,4 +1,3 @@
-const { json } = require("body-parser");
 
 module.exports = function restGroup(app, db) {
 
@@ -14,8 +13,7 @@ module.exports = function restGroup(app, db) {
         db.all(/* sql */`SELECT *, (SELECT COUNT(*) FROM userXgroup WHERE groupId = (SELECT id FROM [group] WHERE name = ?)) AS amount FROM [group] WHERE name = ?`, [req.params.groupName, req.params.groupName], (elseErr, elseRow) => {
           if(elseErr) throw elseErr
           if(!elseRow.length){
-            res.sendStatus(404)
-         //   res.send({response: {status: 404}})
+           res.send({response: {status: 404}})
         }
           else res.send({response: elseRow})
         })

@@ -56,15 +56,17 @@ export const Register = () => {
       };
 
       try {
-        await fetch("/api/register", {
+        let res=  await fetch("/api/register", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(newUser),
         });
-        history.push("/login");
+        if(res.status==409) setBadCred(true)
+        else{
+          history.push("/login");
+        }
       } catch (error) {
-        console.log("probably usernamealready taken is already taken", error);
-        setBadCred(true);
+        console.log("whats the error?:", error);
       }
     }
   };

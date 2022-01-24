@@ -20,7 +20,8 @@ export const Post = () => {
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
     if (!res?.length) return history.push("/page/404");
-   // console.log("new info show me nwo!! ", res);
+    
+    //console.log("new info show me nwo!! ", res);
    
     let p = {
       title: res[0]?.title,

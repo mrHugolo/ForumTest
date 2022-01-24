@@ -32,11 +32,11 @@ module.exports = (app, db) => {
     let user = req.body;
     let checkEmail = /*sql*/ `SELECT email,username FROM user WHERE email=? OR username =?`;
     db.get(checkEmail, [user.email, user.username], (err, rows) => {
+      console.log(rows);
+
       if (err) throw err;
       else if (rows)
-        res.json(
-          (rows.email == user.email ? "email" : "username") + " already in use"
-        );
+        res.sendStatus(409);
       else {
         let hash = getHash(user.password);
         try {

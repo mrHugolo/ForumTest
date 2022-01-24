@@ -14,6 +14,7 @@ import { GroupMembers } from "./pages/GroupMembers";
 import { UserProvider } from "./contexts/UserContext";
 
 import css from "./styles/index.module.css";
+import { Page403 } from "./pages/Page403";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route exact path="/g/:groupName" component={Group} />
             <Route exact path="/g/:groupName/members" component={GroupMembers} />
             <Route exact path="/g/:groupName/p/:postId" component={Post} />
+            <Route path="/page/403" component={Page403} />
             <Route path="*" component={Page404} />
           </Switch>
         </Router>
