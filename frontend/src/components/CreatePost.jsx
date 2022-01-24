@@ -19,7 +19,7 @@ export const CreatePost = ({ group }) => {
     let cont = document.getElementById("createPost-postCont")
 
     const obj = {
-      title: title?.value,
+      title: title?.value.trim(),
       content: cont?.value,
       groupId: group.group.id,
       userId: currentUser.id

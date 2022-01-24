@@ -52,7 +52,7 @@ export const Group = () => {
 
   const joinGroup = async () => {
     const obj = {
-      name: groupName,
+      name: groupName.trim(),
     };
     let res = await Fetch("rest/joinGroup", {
       method: "POST",

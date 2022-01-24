@@ -90,7 +90,7 @@ export const Post = () => {
             post.comments.map((c, i) => (
             <div key={`comment-${i}`} className={pcss.commentCard}>
               <div className={pcss.commenter}>
-                <div>#{i + 1} {c.commentUsername}</div>      
+                <div onClick={()=>history.push(`/${c.commentUsername}`)}>#{i + 1} {c.commentUsername}</div>      
                 <div>{c.timestamp /* put me in a anice div!!!  */}</div>
                 {/*  
                 NOT SURE IF EDIT COMMENT WILL BE USED. here we can add the remove button for moderator maybe

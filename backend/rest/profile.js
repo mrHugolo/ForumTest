@@ -6,7 +6,7 @@ module.exports = function restProfile(app, db) {
       return
     }
     
-    if (sessionUser.username ==req.params.userName){
+
       //add timestamp after postId
             db.all(/* sql */`SELECT username, user.description, text,timestamp, postId, (
               SELECT group_concat(name, 'ᴥ') FROM [group] WHERE id IN (
@@ -31,7 +31,7 @@ module.exports = function restProfile(app, db) {
                      
                   }
             })
-    }
+    
   })
 
   //temp fix

@@ -26,8 +26,6 @@ export const Navbar = ({ changeTheme, dark }) => {
     //logout got home and reload page
     history.push("/")
     window.location.reload("false")
-    console.log("logged oout from session");
-    console.log("history loc", history.location.pathname);
     if (history.location.pathname == "/") return; 
     history.push("/")
   };
