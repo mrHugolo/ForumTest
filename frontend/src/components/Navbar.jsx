@@ -42,13 +42,11 @@ export const Navbar = ({ changeTheme, dark }) => {
       <button onClick={toggleTheme}>{!dark ? "dark" : "light"} theme </button>
       <div className={css.loginCreateWrapper}>
         <h1 onClick={goToPage} id="/">Hidden Forum</h1>
-        {currentUser ? (<>
+        {currentUser.username ? (
           <span>
-          <h4 onClick={goToPage} id={`/${currentUser.username}`}>{currentUser.username}'s profile</h4>
+            <h4 onClick={goToPage} id={`/${currentUser.username}`}>{currentUser.username}'s profile</h4>
             <h4 onClick={logout}>Logout</h4>
           </span>
-        </>
-
         ) : (<>
           <h4 onClick={goToPage} id="/register">Create account</h4>
           <h4 onClick={goToPage} id="/login">Login</h4>

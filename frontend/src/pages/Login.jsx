@@ -9,11 +9,11 @@ export const Login = () => {
   let history = useHistory();
 
   useEffect(() => {
-    if (currentUser) history.goBack();
+    if (currentUser.username) history.goBack();
   }, [currentUser]);
 
   const gotoPage = () => {
-    history.push("/register");
+    history.push("/register"); 
   };
 
   const credentials = { username: "", password: "" };
