@@ -1,0 +1,18 @@
+POST http://localhost:4000/api/login
+Content-Type: application/json
+
+{
+  "username": "Hugo",
+  "password": "123"
+}
+###
+GET http://localhost:4000/rest/post/110
+Content-Type: application/json
+
+###
+PATCH http://localhost:4000/rest/delComment
+Content-Type: application/json
+
+{
+  "commentId": 30
+}
