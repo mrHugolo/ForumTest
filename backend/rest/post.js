@@ -42,6 +42,15 @@ module.exports = function restPost(app, db) {
     })
   })
 
+  app.patch("/rest/delPost", (req, res) => {
+    db.all(/*sql*/ `UPDATE post SET isDeleted = TRUE WHERE id = ?`, [req.body.postId], (err1, rows) => {
+      console.log("body from backend", req);
+      if (err1) throw err1
+      else if (!rows) res.sendStatus(404)
+      else res.send({ response: 200 })
+    })
+  })
+
 
 
 
