@@ -39,7 +39,7 @@ export const Group = () => {
   }, []);
 
   useEffect(async () => {
-    if (currentUser?.id)
+    if (currentUser.id)
       setRole((await Fetch(`rest/isJoined/${groupName}`)).response);
   }, [currentUser]);
 
@@ -128,8 +128,8 @@ export const Group = () => {
       <div className={gcss.bottom}>
         {group.posts &&
           group.posts.map((p, i) => (
-            <div>{!p.isDeleted &&
-              <div key={`post-${i}`} className={css.groupCard}>
+            <div key={`post-${i}`}>{!p.isDeleted &&
+              <div  className={css.groupCard}>
                 <div className={gcss.postTitle} onClick={() => history.push(`/g/${group.name}/p/${p.postId}`)}>
                   {p.title}
                 </div>

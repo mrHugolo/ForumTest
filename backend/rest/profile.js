@@ -40,7 +40,7 @@ module.exports = function restProfile(app, db) {
       res.send({response:false})
       return
     }
-    db.all(/* sql */`SELECT title from post where id = ?`,
+    db.all(/* sql */`SELECT name FROM [group] WHERE id =( SELECT post.groupId FROM post WHERE id = ?)`,
           [req.params.postId], (err, rows) => {
             if (err) throw err
             else if (!rows.length) res.sendStatus(404)

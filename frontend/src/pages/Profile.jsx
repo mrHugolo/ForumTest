@@ -47,7 +47,7 @@ export const Profile = () => {
   const gotopost=async(x)=>{
     let res = (await Fetch(`rest/profile/comment/${x}`)).response
     if(res){      
-      let pageName= res.title
+      let pageName= res[0].name
       history.push(`/g/${pageName}/p/${x}`)
     }
     else console.log("what could have gone wrong???")
@@ -85,7 +85,9 @@ export const Profile = () => {
         <div key={`profileComment-${i}`}>
           <div>{c.timestamp /* PUT ME IN A NICE DIV */ }</div>
               
-          <div className={css.groupCard} onClick={()=>gotopost(c.postId)}>{c.text}</div>
+          <div className={css.groupCard} onClick={()=>gotopost(c.postId)}>
+            <FormatText textToFormat={c.text} /> 
+            </div>
         </div>
       )))}
         <div className={css.center}>
