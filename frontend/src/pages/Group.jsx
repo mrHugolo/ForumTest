@@ -24,16 +24,17 @@ export const Group = () => {
       name: info[0]?.name,
       description: info[0]?.description,
       amount: info[0]?.amount,
-      posts:[]
+      posts: []
     };
 
-    for(let i=0 ; i< info.length ; i++)
-    {
+    for (let i = 0; i < info.length; i++) {
       g.posts.push({
-        title : info[i].title,
-        postId: info[i].postId
+        title: info[i].title,
+        postId: info[i].postId,
+        isDeleted: info[i].isDeleted
       })
     }
+    console.log(g.posts);
     setGroup(g);
   }, []);
 
@@ -89,7 +90,21 @@ export const Group = () => {
   };
 
   const goToMembers = () => {
-    if(role == "GroupAdmin" || role == "Moderator") history.push(`/g/${groupName}/members`)
+    if (role == "GroupAdmin" || role == "Moderator") history.push(`/g/${groupName}/members`)
+  }
+
+  async function deletePost(pId,i) {
+    const obj = { "postId": pId }
+    let res = (await Fetch("rest/delPost", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(obj),
+    })).response
+    
+    if (res == 200) {
+      let arr = group.posts.splice(i,1);
+      setGroup(p => ({ ...p, comments: arr }))
+    }
   }
 
   return (
@@ -113,13 +128,16 @@ export const Group = () => {
       <div className={gcss.bottom}>
         {group.posts &&
           group.posts.map((p, i) => (
-            <div
-              key={`post-${i}`}
-              className={css.groupCard}
-              onClick={() => history.push(`/g/${group.name}/p/${p.postId}`)}
-            >
-              {p.title}
-            </div>
+            <div>{!p.isDeleted &&
+              <div key={`post-${i}`} className={css.groupCard}>
+                <div className={gcss.postTitle} onClick={() => history.push(`/g/${group.name}/p/${p.postId}`)}>
+                  {p.title}
+                </div>
+                <div className={gcss.delPost}>
+                  {role == "GroupAdmin" && <button onClick={() => deletePost(p.postId, i)}>Delete</button>}
+                </div>
+              </div>
+            }</div>
           ))}
       </div>
       {role && <CreatePost group={{ group }} />}

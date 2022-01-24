@@ -15,7 +15,6 @@ export const Post = () => {
   const { groupName } = useParams();
   const history = useHistory();
   const [role, setRole] = useState("");
-
   const [render,setRender] =useState(false)
 
   useEffect(async () => {
@@ -43,10 +42,6 @@ export const Post = () => {
     setPost(p);
   }, [render]);
 
-
- 
-
-
   useEffect(async () => {
     if (currentUser?.id)
       setRole((await Fetch(`rest/isJoined/${groupName}`)).response); 
@@ -66,25 +61,18 @@ export const Post = () => {
       comment.text = "-- Deleted --"
       comment.commentUsername = ""
       setPost(p => ({ ...p, comments: arr })) 
-      
-
     }
-    
-    // console.log("hist", history.location.pathname);
-    // history.push(`${postId}`)
-    //  history.go(0)
+
   }
 
   return (
     <div className={pcss.container}>
       <div className={pcss.post}>
-
       <div className={pcss.title}>
         <h1>{post.title}</h1>
         <h3>{post.posterName}</h3>
         <h4>{post.content}</h4>
       </div>
-
       <div className={pcss.middle}>
         {post?.comments?.length>0 &&
             post.comments.map((c, i) => (

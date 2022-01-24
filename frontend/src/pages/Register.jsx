@@ -72,8 +72,8 @@ export const Register = () => {
   return (
     <>
       <div className={css.container}>
-          <div className={css.headLine}><h3>Create account</h3><hr /></div>
-          
+        <div className={css.headLine}><h3>Create account</h3><hr />
+        </div>
           <div className={css.formContainer}>
         <div className={css.regform}>
           <form id="register-form" onSubmit={handleFormSubmit}>
