@@ -61,7 +61,6 @@ h3 {
 /* ---REGFORM START--- */
 .formContainer {
   text-align: center;
-  width: 60%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 10px;
@@ -72,7 +71,7 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   padding-top: 2vh;
-  width: 15vw;
+  width: 50%;
 }
 
 .headLine {
