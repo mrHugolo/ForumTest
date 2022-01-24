@@ -7,11 +7,15 @@ import { CreateComment } from "../components/CreateComment.jsx";
 import { FormatText } from "../components/FormatText.jsx";
 import { EditText } from "../components/EditText.jsx";
 
+
 export const Post = () => {
   const { currentUser } = useContext(UserContext);
   const { postId } = useParams();
   const [post, setPost] = useState({});
+  const { groupName } = useParams();
   const history = useHistory();
+  const [role, setRole] = useState("");
+
   const [render,setRender] =useState(false)
 
   useEffect(async () => {
@@ -32,6 +36,7 @@ export const Post = () => {
         postId: res[i].id,
         text: res[i].text,
         commentUsername: res[i].commentUsername,
+        commentId: res[i].commentId,
         timestamp:res[i].timestamp
       });
     }
@@ -41,6 +46,34 @@ export const Post = () => {
 
  
 
+
+  useEffect(async () => {
+    if (currentUser?.id)
+      setRole((await Fetch(`rest/isJoined/${groupName}`)).response); 
+  }, [currentUser]);
+
+
+  async function deleteComment(cId) {
+    const obj = { "commentId": cId }
+    let res = (await Fetch("rest/delComment", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(obj),
+    })).response
+    if (res == 200) {
+      let arr = post.comments.slice();
+      let comment = arr.find(c => c.commentId == cId)
+      comment.text = "-- Deleted --"
+      comment.commentUsername = ""
+      setPost(p => ({ ...p, comments: arr })) 
+      
+
+    }
+    
+    // console.log("hist", history.location.pathname);
+    // history.push(`${postId}`)
+    //  history.go(0)
+  }
 
   return (
     <div className={pcss.container}>
@@ -54,10 +87,10 @@ export const Post = () => {
 
       <div className={pcss.middle}>
         {post?.comments?.length>0 &&
-          post.comments.map((c, i) => (
+            post.comments.map((c, i) => (
             <div key={`comment-${i}`} className={pcss.commentCard}>
               <div className={pcss.commenter}>
-                <div>#{i + 1}-{c.commentUsername}</div>
+                <div>#{i + 1} {c.commentUsername}</div>      
                 <div>{c.timestamp /* put me in a anice div!!!  */}</div>
                 {/*  
                 NOT SURE IF EDIT COMMENT WILL BE USED. here we can add the remove button for moderator maybe
@@ -65,6 +98,9 @@ export const Post = () => {
                 </div>
               <div className={pcss.commentText}>
                 <FormatText textToFormat={c.text} />
+                
+                  {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
+                  
               </div>
             </div>
           ))}
