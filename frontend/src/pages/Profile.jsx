@@ -61,7 +61,7 @@ export const Profile = () => {
       <div className={pcss.pContain}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
-        {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description}/>} 
+        {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description} componentType={"profile description"}/>} 
           <div className={pcss.left}>
             <FormatText textToFormat={user.description} />
           </div>

@@ -6,22 +6,42 @@ import etcss from "../styles/editText.module.css"
 
 
 
-export const EditText =({editText,setEditText})=>{
+export const EditText = ({ editText, setEditText, componentType, elementId, render }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEdit = async (e) => {
+
     if (e.key != "Enter" || e.shiftKey) return;
     let trimmedText = e.target.value;
     setIsEdit(false);
-    let res = (
-      await Fetch(`rest/editDescription`, {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ description: trimmedText }),
-      })
-      ).response;
-      if (res.status == 200) {
-      setEditText((p)=>({...p, description: trimmedText}));
+
+    switch (componentType) {
+      case "profile description": {
+        let res = (
+          await Fetch(`rest/editDescription`, {
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ description: trimmedText }),
+          })
+        ).response;
+        if (res.status == 200) {
+          setEditText((p) => ({ ...p, description: trimmedText }));
+        }
+      }
+      case "comment": {
+        let res = (
+          await Fetch(`rest/editComment`, {
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ id: elementId, text: trimmedText }),
+          })
+        ).response;
+
+        if (res.status == 200) {
+          setEditText((p) => ({ ...p, text: trimmedText }));
+          render(p=>!p)
+        }
+      }
     }
   };
 
@@ -40,7 +60,6 @@ export const EditText =({editText,setEditText})=>{
       textArea.selectionStart,
       textArea.selectionEnd
     );
-
     textArea.setRangeText(`*${selected}*`);
   };
   const handleItalic = () => {
@@ -82,7 +101,7 @@ export const EditText =({editText,setEditText})=>{
       {isEdit && (
         <div className={etcss.tAreaWrapper}>
           <textarea
-          className={etcss.tArea}
+            className={etcss.tArea}
             id="textArea"
             onKeyPress={handleEdit}
             defaultValue={editText}

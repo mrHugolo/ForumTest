@@ -1,60 +1,100 @@
 .container {
 /*   background-color: gray; */
   background-color: var(--darkGrey, #d7d7d7);
-  width: 80%;
-  padding: 5px;
+  max-width: 650px;
+  width: 90%;
   margin-right: auto;
   margin-left: auto;
   margin-top: 4vh;
-  padding-top: 20px;
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.flex{
+  display: flex;
+}
+
+.postBar{
+  background-color: grey;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 14px;
+}
+
+
 .title {
-/*   border-bottom: 1px solid black; */
    text-align: left;
 }
 
+.title > h1 {
+  font-size: 25px;
+}
+
+.title > h3,h4{
+  font-size: 18px;
+}
+
 .commentCard{
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0 0.5rem;
+  font-size: 16px;
+}
 
+.commenter{
+  display: flex;
+  justify-content: space-between;
+   background-color: gray;
+}
 
+/* edit pen */
+.commenter > div:last-child > div:last-child{
+padding-left: 10px;
+}
+
+.commenter > div:first-child{
+  text-decoration: underline;
 }
 
 .commentCard>div{
   padding: 10px;
-
 }
 
-.commenter{
-    display: flex;
-    justify-content: space-between;
-     background-color: gray;
-
-}
 .commentText{
-    background-color: rgb(192, 189, 189);
-
-  /* border-bottom: 1px solid black; */
+  background-color: rgb(192, 189, 189);
   text-align: left;
-  
 }
 
-.post {
-  text-align: center;
+.postContainer {
   width: 95%;
 }
 
-.poster {
-  /* background-color: blueviolet; */
-  text-align: left;
+.createComment{
+  text-align: center;
 }
 
-.postContent {
-  background-color: var(--lightGrey, #5c5c5c);
-  color: var(--nearBlack, white);
+.commentBtn{
+  background-color: lightgray;
+  border-radius: 3px;
+  padding: 5px;
+
+}
+
+.form{
+  background-color: white;
   padding: 5px;
 }
+
+.writeCommentBar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -6px;
+}
+
+.textAreaComment{
+  width: 100%;
+  border: none;
+}
+
