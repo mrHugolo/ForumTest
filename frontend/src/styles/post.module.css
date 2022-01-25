@@ -99,4 +99,6 @@ padding-left: 10px;
 .textAreaComment{
   width: 100%;
   border: none;
+  resize: none;
+    overflow: hidden;
 }
