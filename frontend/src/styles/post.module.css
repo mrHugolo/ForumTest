@@ -28,6 +28,7 @@
 
 .title {
    text-align: left;
+   word-break: break-all;
 }
 
 .title > h1 {
@@ -65,6 +66,8 @@ padding-left: 10px;
 .commentText{
   background-color: rgb(192, 189, 189);
   text-align: left;
+  word-break: break-word;
+  
 }
 
 .postContainer {

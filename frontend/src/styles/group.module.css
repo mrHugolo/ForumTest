@@ -38,3 +38,14 @@ button.leave {
 .desc {
   font-size: 10pt;
 }
+
+.postTitle {
+  width: 90%;
+  float: left;
+}
+
+.delPost {
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 4px;
+}

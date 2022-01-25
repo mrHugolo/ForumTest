@@ -21,7 +21,6 @@ export const Post = () => {
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
     if (!res?.length) return history.push("/page/404");
-    // console.log("new info show me nwo!! ", res);
 
     let p = {
       title: res[0]?.title,
@@ -63,13 +62,8 @@ export const Post = () => {
       comment.text = "-- Deleted --"
       comment.commentUsername = ""
       setPost(p => ({ ...p, comments: arr }))
-
-
     }
 
-    // console.log("hist", history.location.pathname);
-    // history.push(`${postId}`)
-    //  history.go(0)
   }
 
   return (
@@ -96,7 +90,7 @@ export const Post = () => {
               post.comments.map((c, i) => (
                 <div key={`comment-${i}`} className={pcss.commentCard}>
                   <div className={pcss.commenter}>
-                    <div>@{c.commentUsername}</div>
+                    <div onClick={() => history.push(`/${c.commentUsername}`)}>@{c.commentUsername}</div>
                     <div className={pcss.flex}>
                       <div>[{c.timestamp}]</div>
                       {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}

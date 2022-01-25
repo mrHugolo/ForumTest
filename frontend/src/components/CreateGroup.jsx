@@ -24,7 +24,7 @@ export const CreateGroup = ({ groups }) => {
     }
   
     const obj = {
-      name: name?.value,
+      name: name?.value.trim(),
       description: desc?.value
     }
     let res = await Fetch("rest/group", {
@@ -43,6 +43,7 @@ export const CreateGroup = ({ groups }) => {
     }
     setIsHidden(true)
 
+    name.value=name.value.trim()
     history.push(`g/${name.value}`)
   }
 
@@ -51,8 +52,8 @@ export const CreateGroup = ({ groups }) => {
       {currentUser && (
         <div>
           <div className={`${isHidden ? css.hide : css.createGroup}`}>
-            <input id="createGroup-groupName" placeholder="Group Name" />
-            <textarea id="createGroup-groupDesc" placeholder="Group Description" />
+            <input id="createGroup-groupName" minLength={1} maxLength={25} placeholder="Group Name" />
+            <textarea id="createGroup-groupDesc"  minLength={1} maxLength={500} placeholder="Group Description" />
           </div>
           <button onClick={handleClick}>
             + Create Group
