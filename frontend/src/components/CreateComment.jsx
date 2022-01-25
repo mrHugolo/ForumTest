@@ -8,7 +8,11 @@ export const CreateComment = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if(e.target[0].value.trim().length===0){
+      e.target[0].value=""
+      return
+    }
+    e.target[0].value =e.target[0].value.trim()
     let obj = {
       postId: props.postId,
       userId: props.currentUser.id,
