@@ -65,12 +65,15 @@ export const FormatText = ({ textToFormat }) => {
         if (d) {
           z = d[0].split("\n");
           for (let j = 0; j < z.length; j++) {
+         
+
             let temp = [];
             if (z[j]) {
               let iNeed = z[j].match(/\w+/g);
               let dontNeed = z[j].match(/\W+/g);
               let tempCounter = 0;
               let y = [];
+              if(iNeed && dontNeed)
               while (
                 tempCounter < iNeed.length ||
                 tempCounter < dontNeed.length
@@ -79,6 +82,7 @@ export const FormatText = ({ textToFormat }) => {
                 if (dontNeed[tempCounter]) y.push(dontNeed[tempCounter]);
                 tempCounter++;
               }
+              else y.push(z[j])
               for (let h = 0; h < y.length; h++) {
                 //console.log("Y[H]",y[h]);
                 if (y[h] == "const" || y[h] == "let" || y[h] == "for") {
@@ -145,14 +149,6 @@ export const FormatText = ({ textToFormat }) => {
       }      
       else array3.push(array2[m])
     }
-    //console.log("array tres ", array3);      
-       // const linkFormat = array2[m].match(
-         // /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-        //);
-       /*  if (linkFormat)
-         console.log("link frma", linkFormat);
-        else
-         console.log("no mach", array2[m]); */       
 
     setText(array3);
    // console.log(array2);

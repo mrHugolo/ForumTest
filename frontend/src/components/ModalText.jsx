@@ -16,7 +16,7 @@ export const ModalText = ({showModal,isRead}) => {
           ea maxime hic quo unde ab explicabo iure. Esse recusandae enim ipsa?
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, vitae`
     let a=[]
-    for(let i=0;i<30;i++){ //number of lorem Ipsumses
+    for(let i=0;i<30;i++){ //number of lorem Ipsums
       a.push(t)
     }
     setText(a)

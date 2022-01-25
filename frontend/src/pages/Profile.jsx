@@ -15,6 +15,8 @@ export const Profile = () => {
   const {userName} = useParams()
   const [user, setUser] = useState({})
   const history =useHistory()
+  const [isEdit, setIsEdit] = useState(true);
+
 
   useEffect( async () => {
     if(!currentUser.username) return history.push("page/403")
@@ -37,11 +39,9 @@ export const Profile = () => {
         timestamp: info[i].timestamp
       })
     }
-
   
     setUser(u)
   }, [currentUser,userName])
-
 
 
   const gotopost=async(x)=>{
@@ -54,16 +54,14 @@ export const Profile = () => {
 
   }
 
- 
-
   return (
     <div className={pcss.container}>
       <div className={pcss.pContain}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
-        {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description}/>} 
+        {user.isMyProfile &&<EditText toggle={setIsEdit} setEditText={setUser} editText={user.description}/>} 
           <div className={pcss.left}>
-            <FormatText textToFormat={user.description} />
+            {isEdit??<FormatText textToFormat={user.description} />}
           </div>
       </div>
       {user.isMyProfile &&
