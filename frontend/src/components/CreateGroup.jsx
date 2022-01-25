@@ -27,12 +27,17 @@ export const CreateGroup = ({ groups }) => {
       name: name?.value.trim(),
       description: desc?.value
     }
-    let res = await Fetch("rest/group", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(obj),
-    })
-    if(!res.response){
+
+    let res = null
+    if (obj.name.length >= 3 && !obj.name.match(/[^A-Za-z0-9ÅÄÖåäö\s]/)) {
+      res = await Fetch("rest/group", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(obj),
+      })
+    }
+    
+    if(!res?.response){
       name.value = "Name not available"
       return
     }
@@ -49,11 +54,11 @@ export const CreateGroup = ({ groups }) => {
 
   return(
     <>
-      {currentUser && (
+      {currentUser.username && (
         <div>
           <div className={`${isHidden ? css.hide : css.createGroup}`}>
-            <input id="createGroup-groupName" minLength={1} maxLength={25} placeholder="Group Name" />
-            <textarea id="createGroup-groupDesc"  minLength={1} maxLength={500} placeholder="Group Description" />
+            <input id="createGroup-groupName" minLength={3} maxLength={25} placeholder="Group Name" />
+            <textarea id="createGroup-groupDesc"  minLength={3} maxLength={500} placeholder="Group Description" />
           </div>
           <button onClick={handleClick}>
             + Create Group

@@ -31,6 +31,10 @@ module.exports = function restGroup(app, db) {
   app.get("/rest/isJoined/:groupName", (req, res) => {
     db.get("SELECT id FROM [group] WHERE name = ?", [req.params.groupName], (err1, row1) => {
       if (err1) throw err1
+      if(!row1?.id) {
+        res.send({response: {status: 404}})
+        return
+      }
       db.get("SELECT role FROM [userXgroup] WHERE userId = ? AND groupId = ?", [sessionUser.id, row1.id], (err2, row2) => {
         if (err2) throw err2
         res.send({ response: row2?.role })

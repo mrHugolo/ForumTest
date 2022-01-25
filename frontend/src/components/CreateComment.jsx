@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Fetch } from "../utils/fetch";
+import pcss from "../styles/post.module.css";
 
 export const CreateComment = (props) => {
   const [showInput, setShowInput] = useState(false);
-  const history=useHistory()
+  const history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,12 +37,12 @@ export const CreateComment = (props) => {
       };
       tempComment.push(tempObj);
       props.post((p) => ({ ...p, comments: tempComment }));
-      props.render(p=>!p)
+      props.render(p => !p)
 
       //check later alligator to-do
       // props.post((p) => ({ ...p, comments: [...p.comments,{...p, text:res.text , commentUsername:props.currentUser.username}]}))
     }
-    setShowInput(false);
+    e.target.reset()
   };
 
   const handleBold = () => {
@@ -87,34 +88,33 @@ export const CreateComment = (props) => {
   };
 
   return (
-    <div>
-      {showInput && props.currentUser.id ? (
+    <div className={pcss.createComment}>
+      {props.currentUser.id ? (
         <div>
-          <form onSubmit={handleSubmit}>
-            {/* <textarea/> is temporary */}
+          <form className={pcss.form} onSubmit={handleSubmit}>
             <textarea
-              placeholder="WRITE COMMENT HERE"
+              className={pcss.textAreaComment}
+              placeholder="Write a comment here..."
               id="commentInput"
               type="text"
               required
             />
-
-            <button type="submit">Send</button>
+            <div className={pcss.writeCommentBar}>
+              <div>
+                <button onClick={handleBold} type="button">
+                  <b>B</b>
+                </button>
+                <button onClick={handleItalic} type="button">
+                  <i>T</i>
+                </button>
+                <button onClick={handleCode} type="button">{`< >`}</button>
+              </div>
+              <button type="submit">Send</button>
+            </div>
           </form>
-          <div>
-            <button onClick={handleBold} type="text">
-              <b>B</b>
-            </button>
-            <button onClick={handleItalic} type="text">
-              <i>T</i>
-            </button>
-            <button onClick={handleCode} type="text">{`< >`}</button>
-          </div>
         </div>
-      ) : props.currentUser.id ? (
-        <button onClick={() => setShowInput(true)}>Comment</button>
       ) : (
-        <button onClick={()=>history.push("/login")}>Log in to comment on this post</button>
+        <button onClick={() => history.push("/login")}>Log in to comment on this post</button>
       )}
     </div>
   );

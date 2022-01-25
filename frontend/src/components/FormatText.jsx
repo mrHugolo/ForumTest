@@ -65,8 +65,6 @@ export const FormatText = ({ textToFormat }) => {
         if (d) {
           z = d[0].split("\n");
           for (let j = 0; j < z.length; j++) {
-         
-
             let temp = [];
             if (z[j]) {
               let iNeed = z[j].match(/\w+/g);

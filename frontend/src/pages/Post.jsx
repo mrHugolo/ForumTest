@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Fetch } from "../utils/fetch.js";
 import pcss from "../styles/post.module.css";
+import css from "../styles/index.module.css"
 import { UserContext } from "../contexts/UserContext";
 import { CreateComment } from "../components/CreateComment.jsx";
 import { FormatText } from "../components/FormatText.jsx";
@@ -15,14 +16,14 @@ export const Post = () => {
   const { groupName } = useParams();
   const history = useHistory();
   const [role, setRole] = useState("");
-  const [render,setRender] =useState(false)
+
+  const [render, setRender] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
     if (!res?.length) return history.push("/page/404");
-    
-    //console.log("new info show me nwo!! ", res);
-   
+
     let p = {
       title: res[0]?.title,
       posterName: res[0]?.posterName,
@@ -37,15 +38,16 @@ export const Post = () => {
         text: res[i].text,
         commentUsername: res[i].commentUsername,
         commentId: res[i].commentId,
-        timestamp:res[i].timestamp
+        timestamp: res[i].timestamp
       });
     }
     setPost(p);
   }, [render]);
 
+
   useEffect(async () => {
     if (currentUser?.id)
-      setRole((await Fetch(`rest/isJoined/${groupName}`)).response); 
+      setRole((await Fetch(`rest/isJoined/${groupName}`)).response);
   }, [currentUser]);
 
 
@@ -61,47 +63,52 @@ export const Post = () => {
       let comment = arr.find(c => c.commentId == cId)
       comment.text = "-- Deleted --"
       comment.commentUsername = ""
-      setPost(p => ({ ...p, comments: arr })) 
+      setPost(p => ({ ...p, comments: arr }))
     }
 
   }
 
   return (
     <div className={pcss.container}>
-      <div className={pcss.post}>
-      <div className={pcss.title}>
-        <h1>{post.title}</h1>
-        <h3>{post.posterName}</h3>
-        <h4>{post.content}</h4>
+      <div className={pcss.postBar}>
+        <div><span className={css.Cpointer} onClick={() => history.push(`/g/${groupName}`)}>{groupName}</span>{" > "}{post.title}</div>
+        <div>{"posted by: @"}{post.posterName}</div>
       </div>
-      <div className={pcss.middle}>
-        {post?.comments?.length>0 &&
-            post.comments.map((c, i) => (
-            <div key={`comment-${i}`} className={pcss.commentCard}>
-              <div className={pcss.commenter}>
-                <div onClick={()=>history.push(`/${c.commentUsername}`)}>#{i + 1} {c.commentUsername}</div>      
-                <div>{c.timestamp /* put me in a anice div!!!  */}</div>
-                {/*  
-                NOT SURE IF EDIT COMMENT WILL BE USED. here we can add the remove button for moderator maybe
-              {currentUser.username && currentUser.username==c.commentUsername &&<EditText setEditText={setPost} editText={c.description}/>}  */}
+      <div className={pcss.postContainer}>
+        <div>
+          <div className={pcss.title}>
+            <h1>{post.title}</h1>
+            <h4>{post.content}</h4>
+          </div>
+          <CreateComment
+            postId={parseInt(postId)}
+            currentUser={currentUser}
+            post={setPost}
+            test={post}
+            render={setRender}
+          />
+          <div className={pcss.middle}>
+            {post?.comments?.length > 0 &&
+              post.comments.map((c, i) => (
+                <div key={`comment-${i}`} className={pcss.commentCard}>
+                  <div className={pcss.commenter}>
+                    <div className={c.commentUsername && css.Cpointer} onClick={() => { if (c.commentUsername) history.push(`/${c.commentUsername}`)}}> {`#${i+1} ${c.commentUsername}`}</div>
+                    <div className={pcss.flex}>
+                      <div>[{c.timestamp}]</div>
+                    </div>
+                  </div>
+                  <div className={pcss.commentText}>
+                    {currentUser.username && currentUser.username == c.commentUsername && <EditText setHideText={setIsHidden} hideText={isHidden} setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
+                    {isHidden ? <div></div> : <FormatText textToFormat={c.text} />}
+
+                    {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
+
+                  </div>
                 </div>
-              <div className={pcss.commentText}>
-                <FormatText textToFormat={c.text} />
-                
-                  {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
-                  
-              </div>
-            </div>
-          ))}
-      </div>
-      <CreateComment
-        postId={parseInt(postId)}
-        currentUser={currentUser}
-        post={setPost}
-        test={post}
-        render={setRender}
-        />
+              ))}
+          </div>
         </div>
+      </div>
     </div>
   );
 };
