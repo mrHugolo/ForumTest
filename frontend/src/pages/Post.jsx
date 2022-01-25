@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Fetch } from "../utils/fetch.js";
 import pcss from "../styles/post.module.css";
+import css from "../styles/index.module.css"
 import { UserContext } from "../contexts/UserContext";
 import { CreateComment } from "../components/CreateComment.jsx";
 import { FormatText } from "../components/FormatText.jsx";
@@ -70,7 +71,7 @@ export const Post = () => {
   return (
     <div className={pcss.container}>
       <div className={pcss.postBar}>
-        <div>{groupName}{" > "}{post.title}</div>
+        <div><span className={css.Cpointer} onClick={() => history.push(`/g/${groupName}`)}>{groupName}</span>{" > "}{post.title}</div>
         <div>{"posted by: @"}{post.posterName}</div>
       </div>
       <div className={pcss.postContainer}>
@@ -91,7 +92,7 @@ export const Post = () => {
               post.comments.map((c, i) => (
                 <div key={`comment-${i}`} className={pcss.commentCard}>
                   <div className={pcss.commenter}>
-                    <div onClick={() => history.push(`/${c.commentUsername}`)}>@{c.commentUsername}</div>
+                    <div className={c.commentUsername && css.Cpointer} onClick={() => { if (c.commentUsername) history.push(`/${c.commentUsername}`)}}> {`#${i+1} ${c.commentUsername}`}</div>
                     <div className={pcss.flex}>
                       <div>[{c.timestamp}]</div>
                     </div>

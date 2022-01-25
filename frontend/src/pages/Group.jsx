@@ -17,8 +17,7 @@ export const Group = () => {
 
   useEffect(async () => {
     let info = (await Fetch(`rest/g/${groupName}`)).response;
-    if (info.status == 404) return history.push("/page/404");
-    //console.log("info now :",info);
+    if (!info || info.status == 404) return history.push("/page/404");
     let g = {
       id: info[0]?.id,
       name: info[0]?.name,
@@ -28,13 +27,13 @@ export const Group = () => {
     };
 
     for (let i = 0; i < info.length; i++) {
+      if(!info[0].postId) break;
       g.posts.push({
         title: info[i].title,
         postId: info[i].postId,
         isDeleted: info[i].isDeleted,
       });
     }
-    //onsole.log(g.posts);
     setGroup(g);
   }, []);
 
@@ -113,12 +112,13 @@ export const Group = () => {
         <span onClick={goToMembers} className={css.left}>
           <FaUserAlt /> {group.amount}
         </span>
-        <button
+        {currentUser.username ? (<button
           className={`${css.right} ${role ? gcss.leave : gcss.join}`}
           onClick={switchGroup}
         >
           {role ? `Leave group` : `Join group`}
-        </button>
+        </button>) :
+          (<button onClick={() => history.push("/login")}>Log in to join group</button>)}
       </div>
       <div className={gcss.middle}>
         <h1>{group.name}</h1>

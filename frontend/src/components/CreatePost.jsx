@@ -24,28 +24,25 @@ export const CreatePost = ({ group }) => {
       groupId: group.group.id,
       userId: currentUser.id
     }
+    let res = null
 
-    let res = (await Fetch("rest/post", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(obj),
-    })).response
-    if (!res) {
-      title.placeholder = "Please add a title to your post"
-      cont.placeholder = "Please add some content to your post"
-      return
-    }else{
-
+    if(obj.title.length >= 3) {
+      res = (await Fetch("rest/post", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(obj),
+      })).response
     }
-    
-    console.log("res from gorup",res);
 
+    if (!res) {
+      title.placeholder = "Please add a title with at least three characters"
+      cont.placeholder = "Please add some content with at least three characters"
+      return
+    }
     
     setIsHidden(true)
     history.push(`/g/${group.group.name}/p/${res}`)
-
   }
-
 
   return (
     <>

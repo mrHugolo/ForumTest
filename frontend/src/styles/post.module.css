@@ -55,10 +55,6 @@
 padding-left: 10px;
 }
 
-.commenter > div:first-child{
-  text-decoration: underline;
-}
-
 .commentCard>div{
   padding: 10px;
 }

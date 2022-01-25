@@ -67,8 +67,8 @@ export const FormatText = ({ textToFormat }) => {
           for (let j = 0; j < z.length; j++) {
             let temp = [];
             if (z[j]) {
-              let iNeed = z[j].match(/\w+/g);
-              let dontNeed = z[j].match(/\W+/g);
+              let iNeed = z[j].match(/\w+/g) || [];
+              let dontNeed = z[j].match(/\W+/g) || [];
               let tempCounter = 0;
               let y = [];
               while (
