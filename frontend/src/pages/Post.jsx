@@ -17,6 +17,7 @@ export const Post = () => {
   const [role, setRole] = useState("");
 
   const [render, setRender] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
@@ -93,11 +94,11 @@ export const Post = () => {
                     <div onClick={() => history.push(`/${c.commentUsername}`)}>@{c.commentUsername}</div>
                     <div className={pcss.flex}>
                       <div>[{c.timestamp}]</div>
-                      {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
                     </div>
                   </div>
                   <div className={pcss.commentText}>
-                    <FormatText textToFormat={c.text} />
+                    {currentUser.username && currentUser.username == c.commentUsername && <EditText setHideText={setIsHidden} hideText={isHidden} setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
+                    {isHidden ? <div></div> : <FormatText textToFormat={c.text} />}
 
                     {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
 

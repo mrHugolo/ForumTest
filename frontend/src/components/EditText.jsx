@@ -6,14 +6,17 @@ import etcss from "../styles/editText.module.css"
 
 
 
-export const EditText = ({ editText, setEditText, componentType, elementId, render }) => {
+export const EditText = ({ editText, setEditText, componentType, elementId, render, hideText, setHideText }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEdit = async (e) => {
 
+
+
     if (e.key != "Enter" || e.shiftKey) return;
     let trimmedText = e.target.value;
     setIsEdit(false);
+    setHideText(false)
 
     switch (componentType) {
       case "profile description": {
@@ -39,7 +42,7 @@ export const EditText = ({ editText, setEditText, componentType, elementId, rend
 
         if (res.status == 200) {
           setEditText((p) => ({ ...p, text: trimmedText }));
-          render(p=>!p)
+          render(p => !p)
         }
       }
     }
@@ -97,7 +100,10 @@ export const EditText = ({ editText, setEditText, componentType, elementId, rend
 
   return (
     <>
-      <div onClick={() => setIsEdit((p) => !p)}>{memoIcon}</div>
+      <div className={etcss.editPen} onClick={() => {
+        setIsEdit((p) => !p)
+        hideText ? setHideText(false) : setHideText(true)
+      }}>{memoIcon}</div>
       {isEdit && (
         <div className={etcss.tAreaWrapper}>
           <textarea
