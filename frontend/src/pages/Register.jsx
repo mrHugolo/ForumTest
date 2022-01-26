@@ -23,7 +23,7 @@ export const Register = () => {
     pass1: "",
     pass2: "",
     isBanned: false,
-    desc: "Write someting about yourself",
+    desc: "Write something about yourself",
   });
 
   const history = useHistory();

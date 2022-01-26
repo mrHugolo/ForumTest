@@ -16,9 +16,7 @@ export const Post = () => {
   const { groupName } = useParams();
   const history = useHistory();
   const [role, setRole] = useState("");
-
   const [render, setRender] = useState(false)
-  const [isHidden, setIsHidden] = useState(false)
 
   useEffect(async () => {
     let res = (await Fetch(`rest/post/${postId}`)).response;
@@ -98,11 +96,9 @@ export const Post = () => {
                     </div>
                   </div>
                   <div className={pcss.commentText}>
-                    {currentUser.username && currentUser.username == c.commentUsername && <EditText setHideText={setIsHidden} hideText={isHidden} setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
-                    {isHidden ? <div></div> : <FormatText textToFormat={c.text} />}
-
+                    {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
+                    <FormatText textToFormat={c.text} />
                     {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
-
                   </div>
                 </div>
               ))}

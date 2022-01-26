@@ -22,6 +22,9 @@
 
 .left {
   width: 100%;
+  margin-top: 10px;
+  border-top: black solid 1px;
+  padding: 10px 0px;
 }
 .right {
   width: 100%;

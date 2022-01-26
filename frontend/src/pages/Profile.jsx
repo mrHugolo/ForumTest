@@ -15,14 +15,15 @@ export const Profile = () => {
   const {userName} = useParams()
   const [user, setUser] = useState({})
   const history =useHistory()
-  const [isEdit, setIsEdit] = useState(true);
+  const [render, setRender] = useState(false); //no-op
+
 
 
   useEffect( async () => {
-    if(!currentUser.username) return history.push("page/403")
-    let info = (await Fetch(`rest/profile/${userName}`)).response
-    if (!info.length || userName == "[deleted]") return history.push("page/404")
-    //console.log("new info show me nwo!! ", info);
+      if(!currentUser.username) return history.push("page/403")
+      let info = (await Fetch(`rest/profile/${userName}`)).response
+      if (!info.length || userName == "[deleted]") return history.push("page/404")
+      //console.log("new info show me nwo!! ", info);
 
     let u = {
       name: info[0].username,
@@ -59,9 +60,9 @@ export const Profile = () => {
       <div className={pcss.pContain}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
-        {user.isMyProfile &&<EditText setEditText={setUser} editText={user.description} componentType={"profile description"}/>} 
+        {user.isMyProfile &&<EditText render={setRender} setEditText={setUser} editText={user.description} componentType={"profile description"}/>} 
           <div className={pcss.left}>
-            {isEdit??<FormatText textToFormat={user.description} />}
+           <FormatText textToFormat={user.description} />
           </div>
       </div>
       {user.isMyProfile &&
