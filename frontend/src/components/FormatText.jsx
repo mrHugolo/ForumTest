@@ -14,10 +14,10 @@ export const FormatText = ({ textToFormat }) => {
     //let test2 = l?.match(/#/g || [])?.length;
     //let checkItalic = l?.match(/§/g || [])?.length;
 
-    l?.split(/(\*+\w+\*+)/g)
+    l?.split(/(\*+\S+\*+)/g)
       .filter((x) => x.length > 0)
       .map((x) => {
-        const a = /\*+(\w+)\*+/.exec(x);
+        const a = /\*+(\S+)\*+/.exec(x);
         if (!a) {
           const spliNotCode = x.split(/(?=\`\`\`).*(?<=\`\`\`)/gs);
           if (spliNotCode[0]) {
@@ -34,7 +34,7 @@ export const FormatText = ({ textToFormat }) => {
             array.push(spliNotCode[1]);
           }
         } else {
-          const b = /\*\*\*(\w+)\*\*\*/.exec(x);
+          const b = /\*\*\*(\S+)\*\*\*/.exec(x);
           if (b) {
             x = x.replace(/\*/g, "");
             array.push(
@@ -43,7 +43,7 @@ export const FormatText = ({ textToFormat }) => {
               </span>
             );
           } else {
-            const c = /\*\*(\w+)\*\*/.exec(x);
+            const c = /\*\*(\S+)\*\*/.exec(x);
             if (c) {
               x = x.replace(/\*/g, "");
 
