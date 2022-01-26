@@ -134,13 +134,13 @@ export const Group = () => {
                   {p.title}
                 </div>
                 <div className={gcss.delPost}>
-                  {role == "GroupAdmin" && <button onClick={() => deletePost(p.postId, i)}>Delete</button>}
+                  {(role == "GroupAdmin" || role == "Moderator") && <button onClick={() => deletePost(p.postId, i)}>Delete</button>}
                 </div>
               </div>
             }</div>
           ))}
       </div>
-      {role && <CreatePost group={{ group }} />}
+      {(role && role != "Unauthorized") && <CreatePost group={{ group }} />}
     </div>
   );
 };

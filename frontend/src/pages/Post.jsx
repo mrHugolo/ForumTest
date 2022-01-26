@@ -70,7 +70,7 @@ export const Post = () => {
     <div className={pcss.container}>
       <div className={pcss.postBar}>
         <div><span className={css.Cpointer} onClick={() => history.push(`/g/${groupName}`)}>{groupName}</span>{" > "}{post.title}</div>
-        <div>{"posted by: @"}{post.posterName}</div>
+        <div>{"posted by: @"}<span className={css.Cpointer} onClick={() => history.push(`/${post.posterName}`)}>{post.posterName}</span></div>
       </div>
       <div className={pcss.postContainer}>
         <div>
@@ -78,13 +78,13 @@ export const Post = () => {
             <h1>{post.title}</h1>
             <h4>{post.content}</h4>
           </div>
-          <CreateComment
+          {role != "Unauthorized" && <CreateComment
             postId={parseInt(postId)}
             currentUser={currentUser}
             post={setPost}
             test={post}
             render={setRender}
-          />
+          /> }
           <div className={pcss.middle}>
             {post?.comments?.length > 0 &&
               post.comments.map((c, i) => (
@@ -98,7 +98,7 @@ export const Post = () => {
                   <div className={pcss.commentText}>
                     {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
                     <FormatText textToFormat={c.text} />
-                    {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
+                    {(role == "GroupAdmin" || role == "Moderator") && <button onClick={() => deleteComment(c.commentId)}>X</button>}
                   </div>
                 </div>
               ))}

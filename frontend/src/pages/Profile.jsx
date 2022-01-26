@@ -20,7 +20,7 @@ export const Profile = () => {
 
 
   useEffect( async () => {
-      if(!currentUser.username) return history.push("page/403")
+      if(!currentUser.username) return 
       let info = (await Fetch(`rest/profile/${userName}`)).response
       if (!info.length || userName == "[deleted]") return history.push("page/404")
       //console.log("new info show me nwo!! ", info);
@@ -57,42 +57,44 @@ export const Profile = () => {
 
   return (
     <div className={pcss.container}>
-      <div className={pcss.pContain}>
-      <h1>{user.name}</h1>
-      <div className={`${css.borderBottom} ${css.w100}`}>
-        {user.isMyProfile &&<EditText render={setRender} setEditText={setUser} editText={user.description} componentType={"profile description"}/>} 
-          <div className={pcss.left}>
-           <FormatText textToFormat={user.description} />
+      {currentUser.username ? (
+        <div className={pcss.pContain}>
+          <h1>{user.name}</h1>
+          <div className={`${css.borderBottom} ${css.w100}`}>
+            {user.isMyProfile && <EditText render={setRender} setEditText={setUser} editText={user.description} componentType={"profile description"} />}
+            <div className={pcss.left}>
+              <FormatText textToFormat={user.description} />
+            </div>
           </div>
-      </div>
-      {user.isMyProfile &&
-      <div className={css.w100}>
-        <h2>Groups:</h2>
-          
-        {user.groups ? user.groups.map(g => (
-        <div key={`profileGroup-${g}`} onClick={()=>{history.push(`/g/${g}`)}} className={css.groupCard}>
-          {g}
-        </div>
-        )) : (<div>No groups yet!</div>)}
-            <div className={pcss.createCont}>
-              <CreateGroup groups={{ groups: user.groups }} />
+          {user.isMyProfile &&
+            <div className={css.w100}>
+              <h2>Groups:</h2>
+
+              {user.groups ? user.groups.map(g => (
+                <div key={`profileGroup-${g}`} onClick={() => { history.push(`/g/${g}`) }} className={css.groupCard}>
+                  {g}
+                </div>
+              )) : (<div>No groups yet!</div>)}
+              <div className={pcss.createCont}>
+                <CreateGroup groups={{ groups: user.groups }} />
+              </div>
             </div>
-      </div>
-    }
-      <h2> Comments:</h2>
-      {user.comments && user.comments.map(((c,i)=>(
-        <div key={`profileComment-${i}`}>
-          <div>{c.timestamp /* PUT ME IN A NICE DIV */ }</div>
-              
-          <div className={css.groupCard} onClick={()=>gotopost(c.postId)}>
-            <FormatText textToFormat={c.text} /> 
+          }
+          <h2> Comments:</h2>
+          {user.comments && user.comments.map(((c, i) => (
+            <div key={`profileComment-${i}`}>
+              <div>{c.timestamp /* PUT ME IN A NICE DIV */}</div>
+
+              <div className={css.groupCard} onClick={() => gotopost(c.postId)}>
+                <FormatText textToFormat={c.text} />
+              </div>
             </div>
+          )))}
+          <div className={css.center}>
+            {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}
+          </div>
         </div>
-      )))}
-        <div className={css.center}>
-      {user.isMyProfile && <DeleteContent content={{ html: <button className={`${css.Cpointer} ${gcss.leave}`}>Delete account</button>, method: "deleteAccount" }} />}
-        </div>
-      </div>
+      ) : (<h1>403 - Forbidden</h1>)}
     </div>
   );
 };
