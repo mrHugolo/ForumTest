@@ -82,7 +82,6 @@ module.exports = (app, db) => {
         res.send(rows);
       } else {
         res.sendStatus(401); // unauthorized
-        res.json({ response: "bad credentials" })
       }
     });
   });

@@ -1,3 +1,3 @@
-const a= require('./testFolder/start.js')
+const a= require('./run/start.js')
 
 a

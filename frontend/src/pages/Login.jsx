@@ -28,14 +28,14 @@ export const Login = () => {
       body: JSON.stringify(credentials),
     });
 
-    let user = await res.json();
-
-    if (res.status == 401) {
+    
+    if (res.status === 401) {
       setBadCredentials(true);
       document.getElementById("username").value=""
       document.getElementById("password").value ="";
-      setTimeout(()=>setBadCredentials(false),3000)
+      setTimeout(()=>setBadCredentials(false),2500)
     } else if (res.status == 200) {
+      let user = await res.json();
       setCurrentUser(user);
     }
   }
