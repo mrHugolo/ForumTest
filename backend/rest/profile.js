@@ -12,7 +12,8 @@ module.exports = function restProfile(app, db) {
               SELECT group_concat(name, 'ᴥ') FROM [group] WHERE id IN (
                 SELECT groupId FROM userXgroup WHERE userId = (SELECT id FROM user WHERE username = ?)
                 )
-                ) AS names FROM  user, comment WHERE username = ? AND comment.userId = (SELECT id FROM user WHERE username = ?)`,
+                ) AS names FROM  user, comment WHERE username = ? AND comment.userId = (SELECT id FROM user WHERE username = ?)
+                ORDER BY timestamp ASC`,
           [req.params.userName, req.params.userName, req.params.userName], (err, rows) => {
             if (err) throw err
             if (rows.length){

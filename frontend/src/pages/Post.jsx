@@ -92,7 +92,8 @@ export const Post = () => {
                   <div className={pcss.commenter}>
                     <div className={c.commentUsername && css.Cpointer} onClick={() => { if (c.commentUsername) history.push(`/${c.commentUsername}`)}}> {`#${i+1} ${c.commentUsername}`}</div>
                     <div className={pcss.flex}>
-                      <div>[{c.timestamp}]</div>
+                      <div>{new Date(c.timestamp).toLocaleString()}</div>              
+
                     </div>
                   </div>
                   <div className={pcss.commentText}>

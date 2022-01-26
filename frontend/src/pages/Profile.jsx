@@ -82,8 +82,7 @@ export const Profile = () => {
       <h2> Comments:</h2>
       {user.comments && user.comments.map(((c,i)=>(
         <div key={`profileComment-${i}`}>
-          <div>{c.timestamp /* PUT ME IN A NICE DIV */ }</div>
-              
+          <div>{new Date(c.timestamp).toLocaleString() /* PUT ME IN A NICE DIV */ }</div>              
           <div className={css.groupCard} onClick={()=>gotopost(c.postId)}>
             <FormatText textToFormat={c.text} /> 
             </div>
