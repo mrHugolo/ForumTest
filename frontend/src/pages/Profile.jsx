@@ -56,7 +56,7 @@ export const Profile = () => {
   }
 
   return (
-    <div className={pcss.container}>
+   <div className={pcss.container}>
       <div className={pcss.pContain}>
       <h1>{user.name}</h1>
       <div className={`${css.borderBottom} ${css.w100}`}>
@@ -66,19 +66,19 @@ export const Profile = () => {
           </div>
       </div>
       {user.isMyProfile &&
-      <div className={css.w100}>
-        <h2>Groups:</h2>
+        <div className={css.w100}>
+         <h2>Groups:</h2>
           
-        {user.groups ? user.groups.map(g => (
-        <div key={`profileGroup-${g}`} onClick={()=>{history.push(`/g/${g}`)}} className={css.groupCard}>
-          {g}
-        </div>
-        )) : (<div>No groups yet!</div>)}
+          {user.groups ? user.groups.map(g => (
+          <div key={`profileGroup-${g}`} onClick={()=>{history.push(`/g/${g}`)}} className={css.groupCard}>
+            {g}
+          </div>
+          )) : (<div>No groups yet!</div>)}
             <div className={pcss.createCont}>
               <CreateGroup groups={{ groups: user.groups }} />
             </div>
-      </div>
-    }
+       </div>
+       }
       <h2> Comments:</h2>
       {user.comments && user.comments.map(((c,i)=>(
         <div key={`profileComment-${i}`}>
