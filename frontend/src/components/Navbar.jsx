@@ -8,12 +8,6 @@ export const Navbar = ({ changeTheme, dark }) => {
   const history = useHistory();
 
 
-  //for dev purpose, remove when done
-  const memoUserlog = useMemo(() => {
-    console.log("Current user atm: ", currentUser);
-  }, [currentUser]);
-  memoUserlog;
-
   const toggleTheme = () => {
     changeTheme((prev) => !prev);
   };

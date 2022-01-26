@@ -21,7 +21,6 @@ export const FormatText = ({ textToFormat }) => {
         if (!a) {
           const spliNotCode = x.split(/(?=\`\`\`).*(?<=\`\`\`)/gs);
           if (spliNotCode[0]) {
-         //   console.log("cero", spliNotCode[0]);
 
             array.push(spliNotCode[0]);
           }
@@ -30,7 +29,6 @@ export const FormatText = ({ textToFormat }) => {
             array.push(matchCode);
           }
           if (spliNotCode[1]) {
-           // console.log("cero", spliNotCode[1]);
             array.push(spliNotCode[1]);
           }
         } else {
@@ -82,7 +80,6 @@ export const FormatText = ({ textToFormat }) => {
               }
               else y.push(z[j])
               for (let h = 0; h < y.length; h++) {
-                //console.log("Y[H]",y[h]);
                 if (y[h] == "const" || y[h] == "let" || y[h] == "for") {
                   temp.push(<span key={`${y}-${h}`} className={ftcss.keyWord}>{y[h]}</span>);
                 } else if (y[h] == "console") {
@@ -115,9 +112,7 @@ export const FormatText = ({ textToFormat }) => {
           const a = /(https?):\/\/(\S+)/.exec(x);
           if(!a) array3.push(x)
           else {
-           // let templinkName=x.split(/https:\/\/\w+\./)
-            //console.log("link name :",templinkName)
-
+       
             if(/[webp,jpg]$/.test(x)){
               array3.push(
                 <a
@@ -149,7 +144,6 @@ export const FormatText = ({ textToFormat }) => {
     }
 
     setText(array3);
-   // console.log(array2);
   }, [textToFormat]);
 
   return (

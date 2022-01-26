@@ -156,13 +156,4 @@ module.exports = function restGroup(app, db) {
       res.send({response: {status: 200}})
     })
   })
-
-  function exec(sql, params, res) {
-    db.all(sql, params, (err, rows) => {
-      if (err) {
-        throw err
-      }
-      res.send(rows)
-    });
-  }
 }

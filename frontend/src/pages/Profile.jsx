@@ -23,7 +23,6 @@ export const Profile = () => {
       let info = (await Fetch(`rest/profile/${userName}`)).response
       if(info===403) return history.push("page/403")
       else if(!info.length || userName == "[deleted]") return history.push("page/404")
-      //console.log("new info show me nwo!! ", info);
 
     let u = {
       name: info[0].username,
@@ -51,7 +50,6 @@ export const Profile = () => {
       let pageName= res[0].name
       history.push(`/g/${pageName}/p/${x}`)
     }
-    else console.log("what could have gone wrong???")
 
   }
 

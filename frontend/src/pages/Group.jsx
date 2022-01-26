@@ -64,7 +64,6 @@ export const Group = () => {
       setGroup((p) => ({ ...p, amount: p.amount + 1 }));
     }
 
-    //console.log(res);
   };
 
   const leaveGroup = async () => {
@@ -81,7 +80,6 @@ export const Group = () => {
       setRole(undefined);
       setGroup((p) => ({ ...p, amount: p.amount - 1 }));
     }
- //  console.log(res);
   };
 
   const partOfDesc = () => {

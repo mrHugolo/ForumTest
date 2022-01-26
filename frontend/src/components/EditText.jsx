@@ -46,11 +46,7 @@ export const EditText = ({editText, setEditText, componentType, elementId, rende
     }
   };
 
-  /*   document.onselectionchange = function() {
-    let selection = document.getSelection().toString();
-    console.log(selection);
-   } */
-
+  
   const handleBold = () => {
     let textArea = document.getElementById("textArea");
     if (textArea.selectionStart == textArea.selectionEnd) return;

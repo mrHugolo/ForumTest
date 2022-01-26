@@ -56,12 +56,9 @@ module.exports = (app, db) => {
   app.post("/api/login", async (req, res) => {
     // check empty request
      if (!req.body.username || !req.body.password) {
-       console.log("gols");       
        res.send("Nothing to process"); 
        return
      }
-    // let ip =  req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-    //console.log(ip);
 
     if (req.session.user !== undefined && req.session.user) {
       res.send(req.session.user.username + " already logged in session");

@@ -11,7 +11,6 @@ export const UserProvider = ({ children }) => {
       method: "GET",
       headers: { "content-type": "application/json" },
     });
-    //console.log("ok??",await res.json());
     try {
       let user = await res.json();
       if (user) {
