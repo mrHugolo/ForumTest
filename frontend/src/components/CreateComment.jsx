@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Fetch } from "../utils/fetch";
 import pcss from "../styles/post.module.css";
 
 export const CreateComment = (props) => {
-  const [showInput, setShowInput] = useState(false);
   const history = useHistory()
 
   const handleSubmit = async (e) => {
@@ -39,8 +37,6 @@ export const CreateComment = (props) => {
       props.post((p) => ({ ...p, comments: tempComment }));
       props.render(p => !p)
 
-      //check later alligator to-do
-      // props.post((p) => ({ ...p, comments: [...p.comments,{...p, text:res.text , commentUsername:props.currentUser.username}]}))
     }
     e.target.reset()
   };
@@ -82,7 +78,6 @@ export const CreateComment = (props) => {
       textArea.selectionStart,
       textArea.selectionEnd
     );
-    let g = selected.split(/\W+/g);
 
     textArea.setRangeText(`\`\`\`${selected}\`\`\``);
   };

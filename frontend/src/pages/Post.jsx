@@ -49,8 +49,8 @@ export const Post = () => {
   }, [currentUser]);
 
 
-  async function deleteComment(cId) {
-    const obj = { "commentId": cId }
+  async function deleteComment(cId,username) {
+    const obj = { "commentId": cId, "username": username }
     let res = (await Fetch("rest/delComment", {
       method: "PATCH",
       headers: { "content-type": "application/json" },
@@ -92,14 +92,14 @@ export const Post = () => {
                   <div className={pcss.commenter}>
                     <div className={c.commentUsername && css.Cpointer} onClick={() => { if (c.commentUsername) history.push(`/${c.commentUsername}`)}}> {`#${i+1} ${c.commentUsername}`}</div>
                     <div className={pcss.flex}>
-                      <div>{new Date(c.timestamp).toLocaleString()}</div>              
+                      <div>{new Date(c.timestamp).toLocaleString()}</div>         
 
                     </div>
                   </div>
                   <div className={pcss.commentText}>
                     {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
                     <FormatText textToFormat={c.text} />
-                    {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId)}>X</button>}
+                    {role == "GroupAdmin" && <button onClick={() => deleteComment(c.commentId,commentUsername)}>X</button>}
                   </div>
                 </div>
               ))}

@@ -2,11 +2,9 @@ module.exports = function restProfile(app, db) {
 
   app.get("/rest/profile/:userName", (req, res) => {
     if(!sessionUser.id){
-      res.send({response:false})
+      res.send({response: 403})
       return
     }
-    
-
       //add timestamp after postId
             db.all(/* sql */`SELECT username, user.description, text,timestamp, postId, (
               SELECT group_concat(name, 'ᴥ') FROM [group] WHERE id IN (
@@ -17,7 +15,13 @@ module.exports = function restProfile(app, db) {
           [req.params.userName, req.params.userName, req.params.userName], (err, rows) => {
             if (err) throw err
             if (rows.length){
-              res.send({ response : rows })
+              if(sessionUser.username !== req.params.userName){
+                for(let i=0;i<rows.length;i++){
+                  delete rows[i].names
+                }
+                res.send({ response: rows })
+              }
+              else res.send({ response : rows })          
             } else{
               db.all(/* sql */`SELECT username, user.description, (
                       SELECT group_concat(name, 'ᴥ') FROM [group] WHERE id IN (

@@ -15,6 +15,10 @@ module.exports = function restComment(app, db) {
     });
 
     app.patch("/rest/delComment", (req, res) => {
+        if(sessionUser.user !==req.body.username){
+            res.sendStatus(403)
+            return
+        }
         db.all(/*sql*/ `UPDATE comment SET text = '-- Deleted --', userId = 999 WHERE id = ?`, [req.body.commentId], (err1, rows) => {
             if (err1) throw err1
             else if (!rows) res.sendStatus(404)
