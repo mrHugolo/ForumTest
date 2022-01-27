@@ -49,8 +49,8 @@ export const Post = () => {
   }, [currentUser]);
 
 
-  async function deleteComment(cId,username) {
-    const obj = { "commentId": cId, "username": username }
+  async function deleteComment(cId,username,role) {
+    const obj = { "commentId": cId, "username": username, "role":role }
     let res = (await Fetch("rest/delComment", {
       method: "PATCH",
       headers: { "content-type": "application/json" },
@@ -99,7 +99,7 @@ export const Post = () => {
                   <div className={pcss.commentText}>
                     {currentUser.username && currentUser.username == c.commentUsername && <EditText setEditText={setPost} editText={c.text} componentType={"comment"} elementId={c.commentId} render={setRender} />}
                     <FormatText textToFormat={c.text} />
-                    {(role == "GroupAdmin" || role == "Moderator") && <button onClick={() => deleteComment(c.commentId,commentUsername)}>X</button>}
+                    {(role == "GroupAdmin" || role == "Moderator") && <button onClick={() => deleteComment(c.commentId,c.commentUsername,role)}>X</button>}
                   </div>
                 </div>
               ))}

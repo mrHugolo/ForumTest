@@ -15,7 +15,8 @@ module.exports = function restComment(app, db) {
     });
 
     app.patch("/rest/delComment", (req, res) => {
-        if(sessionUser.user !==req.body.username){
+        console.log(req.body.role)
+        if(sessionUser.username !==req.body.username && req.body.role!=="GroupAdmin" && req.body.role!=="Moderator"){
             res.sendStatus(403)
             return
         }
